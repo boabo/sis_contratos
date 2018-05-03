@@ -13,8 +13,8 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 	//nombreVista='PolizaBoleta',
 	
-	gruposBarraTareas:[{name:'vigente',title:'<H1 align="center"><i class="fa fa-thumbs-o-down"></i>Vigente</h1>',grupo:0,height:0},
-                       {name:'caducado',title:'<H1 align="center"><i class="fa fa-thumbs-o-up"></i>Caducado</h1>',grupo:1,height:0},
+	gruposBarraTareas:[{name:'vigente',title:'<H1 align="center"><i class="fa fa-thumbs-o-up"></i>Vigentes</h1>',grupo:0,height:0},
+                       {name:'caducado',title:'<H1 align="center"><i class="fa fa-thumbs-o-down"></i>Caducadas</h1>',grupo:1,height:0},
                      ],
 	
 	actualizarSegunTab: function(name){
@@ -314,7 +314,15 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:3
+				maxLength:3,
+                renderer:function (value,p,record){
+						if(record.data.tipo_reg != 'summary'){
+							return  String.format('{0}', record.data['moneda']);
+						}
+						else{
+							return '<b><p align="right">Total: &nbsp;&nbsp; </p></b>';
+						}
+					} 				
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.moneda',type:'string'},
@@ -330,9 +338,14 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:300,
-				renderer:function (value,p,record){                        
-                            return  String.format('{0}', Ext.util.Format.number(value,'0.000,00'));                     
-             		}
+                renderer:function (value,p,record){
+						if(record.data.tipo_reg != 'summary'){
+							return  String.format('{0}', Ext.util.Format.number(value,'0.000,00/i'));
+						}
+						else{
+							return  String.format('<b><font size=2 >{0}</font><b>', Ext.util.Format.number(record.data.total_asegurado,'0.000,00/i'));
+						}
+					} 
 				
 			},
 				type:'NumberField',
@@ -377,6 +390,8 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
+		{name:'tipo_reg', type: 'string'},
+		{name:'total_asegurado', type: 'numeric'},
 		
 	],
 	sortInfo:{

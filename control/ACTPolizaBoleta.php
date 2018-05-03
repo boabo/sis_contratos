@@ -28,6 +28,13 @@ class ACTPolizaBoleta extends ACTbase{
 			$this->objFunc=$this->create('MODPolizaBoleta');
 			
 			$this->res=$this->objFunc->listarPolizaBoleta($this->objParam);
+			$temp = Array();
+			$temp['total_asegurado'] = $this->res->extraData['total_asegurado'];
+			$temp['tipo_reg'] = 'summary';
+			$temp['id_contrato'] = 0;
+			
+			$this->res->total++;
+			$this->res->addLastRecDatos($temp);
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -47,9 +54,15 @@ class ACTPolizaBoleta extends ACTbase{
 			$this->objReporte = new Reporte($this->objParam,$this);
 			$this->res = $this->objReporte->generarReporteListado('MODPolizaBoleta','listarPolizaBoletaOtra');
 		} else{
-			$this->objFunc=$this->create('MODPolizaBoleta');
-			
+			$this->objFunc=$this->create('MODPolizaBoleta');			
 			$this->res=$this->objFunc->listarPolizaBoletaOtra($this->objParam);
+			$temp = Array();
+			$temp['total_asegurado'] = $this->res->extraData['total_asegurado'];
+			$temp['tipo_reg'] = 'summary';
+			$temp['id_contrato'] = 0;
+			
+			$this->res->total++;
+			$this->res->addLastRecDatos($temp);
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}

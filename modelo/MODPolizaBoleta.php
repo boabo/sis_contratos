@@ -19,6 +19,7 @@ class MODPolizaBoleta extends MODbase{
 		$this->transaccion='LG_POBOA_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 
+		$this->capturaCount('total_asegurado','numeric');
 		//$this->setParametro('fecha_fin_uso','fecha_fin_uso','integer');		
 		//Definicion de la lista del resultado del query
 		//$this->captura('id_poliza_voletos','int4');
@@ -58,6 +59,7 @@ class MODPolizaBoleta extends MODbase{
 		$this->transaccion='LG_POBOO_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 
+		$this->capturaCount('total_asegurado','numeric');
 		//$this->setParametro('fecha_fin_uso','fecha_fin_uso','integer');		
 		//Definicion de la lista del resultado del query
 		//$this->captura('id_poliza_voletos','int4');

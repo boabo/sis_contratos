@@ -11,10 +11,9 @@ header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
 Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
-	//nombreVista='PolizaBoleta',
 	
-	gruposBarraTareas:[{name:'vigente',title:'<H1 align="center"><i class="fa fa-thumbs-o-down"></i>Vigente</h1>',grupo:0,height:0},
-                       {name:'caducado',title:'<H1 align="center"><i class="fa fa-thumbs-o-up"></i>Caducado</h1>',grupo:1,height:0},
+	gruposBarraTareas:[{name:'vigente',title:'<H1 align="center"><i class="fa fa-thumbs-o-up"></i>Vigentes</h1>',grupo:0,height:0},
+                       {name:'caducado',title:'<H1 align="center"><i class="fa fa-thumbs-o-down"></i>Caducadas</h1>',grupo:1,height:0},
                      ],
 	
 	actualizarSegunTab: function(name){
@@ -63,8 +62,9 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 		
 		this.finCons = true;
 		//this.load({params:{start:0, limit:this.tam_pag}})
+		
 	},
-			
+	
 	Atributos:[
 	{
 			//configuracion del componente
@@ -100,16 +100,17 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				//gwidth: 400,
 				anchor: '100%',
 				gwidth: 200,
-				maxLength:200
+				maxLength:200,
 				//maxLength:30,
-				
+	
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.banco',type:'string'},
 				id_grupo:1,
 				grid:true,
 				form:true,
-				bottom_filter:true
+				bottom_filter:true,
+				
 		},
 		{
 			config:{
@@ -117,7 +118,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'NRO Documento',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,
+				gwidth: 150,
 				maxLength:30
 			},
 				type:'TextField',
@@ -328,7 +329,15 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 70,
-				maxLength:3
+				maxLength:3,
+                renderer:function (value,p,record){
+						if(record.data.tipo_reg != 'summary'){
+							return  String.format('{0}', record.data['moneda']);
+						}
+						else{
+							return '<b><p align="right">Total: &nbsp;&nbsp; </p></b>';
+						}
+					}  				
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.moneda',type:'string'},
@@ -344,10 +353,14 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:300,
-				renderer:function (value,p,record){                        
-                            return  String.format('{0}', Ext.util.Format.number(value,'0.000,00'));                     
-             		}
-				
+                renderer:function (value,p,record){
+						if(record.data.tipo_reg != 'summary'){
+							return  String.format('{0}', Ext.util.Format.number(value,'0.000,00/i'));
+						}
+						else{
+							return  String.format('<b><font size=2 >{0}</font><b>', Ext.util.Format.number(record.data.total_asegurado,'0.000,00/i'));
+						}
+					} 								
 			},
 				type:'NumberField',
 				filters:{pfiltro:'pobo.asegurado',type:'numeric'},
@@ -449,7 +462,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 		}
 	],
 	tam_pag:50,	
-	title:'Poliza Boleta',
+	title:'Poliza Boleta',	
 	ActList:'../../sis_contratos/control/PolizaBoleta/listarPolizaBoleta',
 	id_store:'id_contrato',
 	fields: [
@@ -479,6 +492,8 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
+		{name: 'tipo_reg', type: 'string'},
+		{name: 'total_asegurado', type: 'numeric'},
 		
 	],
 	sortInfo:{
