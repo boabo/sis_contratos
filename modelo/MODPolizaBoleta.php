@@ -23,7 +23,7 @@ class MODPolizaBoleta extends MODbase{
 		//$this->setParametro('fecha_fin_uso','fecha_fin_uso','integer');		
 		//Definicion de la lista del resultado del query
 		//$this->captura('id_poliza_voletos','int4');
-		$this->captura('id_contrato','int4');
+		$this->captura('id_anexo','int4');
 		$this->captura('estado_reg','varchar');
 		$this->captura('agencia','varchar');
 		$this->captura('nro_documento','varchar');    
@@ -31,6 +31,7 @@ class MODPolizaBoleta extends MODbase{
 		$this->captura('fecha_fin_uso','date');
 		$this->captura('moneda','varchar');
 		$this->captura('asegurado','numeric');
+		$this->captura('estado','varchar');
 		$this->captura('codigo_noiata','varchar');
 		$this->captura('codigo','varchar');
 		$this->captura('fecha_hasta','date');
@@ -48,6 +49,7 @@ class MODPolizaBoleta extends MODbase{
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		//var_dump($this->consulta);exit; 
+		//echo($this->consulta);exit;
 		$this->ejecutarConsulta();
 		
 		//Devuelve la respuesta
@@ -63,7 +65,7 @@ class MODPolizaBoleta extends MODbase{
 		//$this->setParametro('fecha_fin_uso','fecha_fin_uso','integer');		
 		//Definicion de la lista del resultado del query
 		//$this->captura('id_poliza_voletos','int4');
-		$this->captura('id_contrato','int4');
+		$this->captura('id_anexo','int4');
 		$this->captura('banco','varchar');
 		$this->captura('nro_documento','varchar');    
 		$this->captura('tipo','varchar');
@@ -73,8 +75,10 @@ class MODPolizaBoleta extends MODbase{
 		$this->captura('fecha_desde','date');
 		$this->captura('fecha_notif','date');
 		$this->captura('fecha_corte','date');
+		$this->captura('fecha_hasta','date');
 		$this->captura('moneda','varchar');
 		$this->captura('asegurado','numeric');
+		$this->captura('estado','varchar');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
 		$this->captura('id_usuario_reg','int4');

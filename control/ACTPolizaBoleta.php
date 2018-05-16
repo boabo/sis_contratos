@@ -11,6 +11,8 @@ class ACTPolizaBoleta extends ACTbase{
 					
 	function listarPolizaBoleta(){
 		//$fecha = $this->objParam->getParametro('fecha_fin_uso');
+		//$this->objParam->defecto('ordenacion','fecha_hasta');
+		//$this->objParam->defecto('dir_ordenacion','asc');
 		
         if($this->objParam->getParametro('pes_estado')=='vigente'){
         	//$this->objParam->addFiltro("FUNCIO.id_funcionario= ".$_SESSION["_ID_FUNCIOANRIO_OFUS"]);
@@ -35,7 +37,7 @@ class ACTPolizaBoleta extends ACTbase{
 			
 			$this->res->total++;
 			$this->res->addLastRecDatos($temp);
-		}
+		}		
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	

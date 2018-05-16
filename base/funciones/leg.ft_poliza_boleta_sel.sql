@@ -44,7 +44,7 @@ BEGIN
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-            			pobo.id_contrato,
+            			pobo.id_anexo,
             			pobo.estado_reg,
 						pobo.agencia,
                         pobo.nro_documento,
@@ -52,6 +52,7 @@ BEGIN
                         pobo.fecha_fin_uso,
 						pobo.moneda,
 						pobo.asegurado,
+                        pobo.estado,
 						pobo.codigo_noiata,
 						pobo.codigo,
 						pobo.fecha_hasta,
@@ -91,7 +92,7 @@ BEGIN
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-			v_consulta:='select count(id_contrato),sum(pobo.asegurado)
+			v_consulta:='select count(id_anexo),sum(pobo.asegurado)
 					    from leg.vpoliza_boletas pobo
 					    inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
@@ -116,7 +117,7 @@ BEGIN
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-            			pobo.id_contrato,
+            			pobo.id_anexo,
 						pobo.banco,
                         pobo.nro_documento,
 						pobo.tipo,
@@ -126,8 +127,10 @@ BEGIN
 						pobo.fecha_desde,
 						pobo.fecha_notif,
 						pobo.fecha_corte,
+                        pobo.fecha_hasta,
 						pobo.moneda,
                         pobo.asegurado,
+                        pobo.estado,
                         usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
                         pobo.id_usuario_reg,
@@ -156,7 +159,7 @@ BEGIN
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-			v_consulta:='select count(id_contrato),sum(pobo.asegurado)
+			v_consulta:='select count(id_anexo),sum(pobo.asegurado)
 					    from leg.vpoliza_boletas_otras pobo
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod			

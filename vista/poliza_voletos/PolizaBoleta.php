@@ -11,7 +11,8 @@ header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
 Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
-	
+
+
 	gruposBarraTareas:[{name:'vigente',title:'<H1 align="center"><i class="fa fa-thumbs-o-up"></i>Vigentes</h1>',grupo:0,height:0},
                        {name:'caducado',title:'<H1 align="center"><i class="fa fa-thumbs-o-down"></i>Caducadas</h1>',grupo:1,height:0},
                      ],
@@ -71,7 +72,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 			config:{
 					labelSeparator:'',
 					inputType:'hidden',
-					name: 'id_contrato'
+					name: 'id_anexo'
 			},
 			type:'Field',
 			form:true 
@@ -91,6 +92,38 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				grid:false,
 				form:false
 		},
+		{
+			config:{
+				name: 'agencia',
+				fieldLabel: 'Agencia',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 200,
+				maxLength:255
+			},
+				type:'TextField',
+				filters:{pfiltro:'pobo.agencia',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:true,
+				bottom_filter:true
+		},
+		{
+			config:{
+				name: 'codigo_int',
+				fieldLabel: 'Office ID',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:25
+			},
+				type:'TextField',
+				filters:{pfiltro:'pobo.codigo_int',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:true,
+				bottom_filter:true
+		},				
 		{
 			config:{
 				name: 'banco',
@@ -160,22 +193,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				form:true,
 				bottom_filter:true
 		},
-		{
-			config:{
-				name: 'codigo_int',
-				fieldLabel: 'Office ID',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:25
-			},
-				type:'TextField',
-				filters:{pfiltro:'pobo.codigo_int',type:'string'},
-				id_grupo:1,
-				grid:true,
-				form:true,
-				bottom_filter:true
-		},
+
 		{
 			config:{
 				name: 'codigo_noiata',
@@ -192,22 +210,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				form:true,
 				bottom_filter:true
 		},
-		{
-			config:{
-				name: 'agencia',
-				fieldLabel: 'Agencia',
-				allowBlank: true,
-				anchor: '100%',
-				gwidth: 200,
-				maxLength:255
-			},
-				type:'TextField',
-				filters:{pfiltro:'pobo.agencia',type:'string'},
-				id_grupo:1,
-				grid:true,
-				form:true,
-				bottom_filter:true
-		},
+
 		{
 			config:{
 				name: 'tipo_agencia',
@@ -309,7 +312,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 	 {
 			config:{
 				name: 'fecha_hasta',
-				fieldLabel: 'Fecha Vencimiento',
+				fieldLabel: 'Fecha Vencimiento',			
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -368,6 +371,22 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				grid:true,
 				form:true
 		},
+		{
+			config:{
+				name: 'estado',
+				fieldLabel: 'Estado',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:30
+			},
+				type:'TextField',
+				filters:{pfiltro:'pobo.estado',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:true,
+				bottom_filter:true
+		},		
 		{
 			config:{
 				name: 'usr_reg',
@@ -464,9 +483,9 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 	tam_pag:50,	
 	title:'Poliza Boleta',	
 	ActList:'../../sis_contratos/control/PolizaBoleta/listarPolizaBoleta',
-	id_store:'id_contrato',
+	id_store:'id_anexo',
 	fields: [
-		//{name:'id_contrato', type: 'numeric'},
+		{name:'id_anexo', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
 		{name:'banco', type: 'string'},
 		{name:'nro_documento', type: 'string'},
@@ -484,6 +503,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_hasta', type: 'date',dateFormat:'Y-m-d'},
 		{name:'moneda', type: 'string'},
 		{name:'asegurado', type: 'numeric'},
+		{name:'estado', type: 'string'},
 		{name:'id_usuario_reg', type: 'numeric'},
 		{name:'usuario_ai', type: 'string'},
 		{name:'fecha_reg', type: 'date',dateFormat:'Y-m-d H:i:s.u'},

@@ -71,11 +71,43 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 			config:{
 					labelSeparator:'',
 					inputType:'hidden',
-					name: 'id_contrato'
+					name: 'id_anexo'
 			},
 			type:'Field',
 			form:true 
 		},
+		{
+			config:{
+				name: 'proveedor',
+				fieldLabel: 'Empresa',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 200,
+				maxLength:255
+			},
+				type:'TextField',
+				filters:{pfiltro:'pobo.proveedor',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:true,
+				bottom_filter:true
+		},		
+		{
+			config:{
+				name: 'codigo_int',
+				fieldLabel: 'Office ID',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:25
+			},
+				type:'TextField',
+				filters:{pfiltro:'pobo.codigo_int',type:'string'},
+				id_grupo:1,
+				grid:false,
+				form:true,
+				bottom_filter:false
+		},		
 
 		{
 			config:{
@@ -147,22 +179,6 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'codigo_int',
-				fieldLabel: 'Office ID',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:25
-			},
-				type:'TextField',
-				filters:{pfiltro:'pobo.codigo_int',type:'string'},
-				id_grupo:1,
-				grid:false,
-				form:true,
-				bottom_filter:false
-		},
-		{
-			config:{
 				name: 'codigo_noiata',
 				fieldLabel: 'Cod Iata',
 				allowBlank: true,
@@ -177,22 +193,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 				form:true,
 				bottom_filter:false
 		},
-		{
-			config:{
-				name: 'proveedor',
-				fieldLabel: 'Empresa',
-				allowBlank: true,
-				anchor: '100%',
-				gwidth: 200,
-				maxLength:255
-			},
-				type:'TextField',
-				filters:{pfiltro:'pobo.proveedor',type:'string'},
-				id_grupo:1,
-				grid:true,
-				form:true,
-				bottom_filter:true
-		},
+
 		/*{
 			config:{
 				name: 'tipo_agencia',
@@ -355,6 +356,22 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 				form:true,
 				bottom_filter:true,
 		},
+		{
+			config:{
+				name: 'estado',
+				fieldLabel: 'Estado',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:30
+			},
+				type:'TextField',
+				filters:{pfiltro:'pobo.estado',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:true,
+				bottom_filter:true
+		},			
 
 
 	
@@ -365,9 +382,9 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 	tam_pag:50,	
 	title:'Poliza Boleta',
 	ActList:'../../sis_contratos/control/PolizaBoleta/listarPolizaBoletaOtra',
-	id_store:'id_contrato',
+	id_store:'id_anexo',
 	fields: [
-		//{name:'id_contrato', type: 'numeric'},
+		{name:'id_anexo', type: 'numeric'},
 		{name:'banco', type: 'string'},
 		{name:'nro_documento', type: 'string'},
 		{name:'tipo', type: 'string'},
@@ -382,6 +399,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_hasta', type: 'date',dateFormat:'Y-m-d'},
 		{name:'moneda', type: 'string'},
 		{name:'asegurado', type: 'numeric'},
+		{name:'estado',type:'string'},
 		{name:'id_usuario_reg', type: 'numeric'},
 		{name:'usuario_ai', type: 'string'},
 		{name:'fecha_reg', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
@@ -395,7 +413,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 		
 	],
 	sortInfo:{
-		field: 'id_contrato',
+		field: 'fecha_hasta',
 		direction: 'ASC'
 	},
 	bdel:true,
