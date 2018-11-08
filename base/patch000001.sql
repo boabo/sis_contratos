@@ -1,27 +1,4 @@
-/***********************************I-SCP-FEA-LEG-1-7/11/2018*****************************************/
-CREATE TABLE leg.tanexo (
-  id_anexo SERIAL,
-  id_contrato INTEGER NOT NULL,
-  tipo VARCHAR(30),
-  descripcion VARCHAR(1000),
-  fecha_desde DATE,
-  fecha_hasta DATE,
-  tipo_boleta VARCHAR(30),
-  moneda VARCHAR(3),
-  monto NUMERIC,
-  banco VARCHAR(30),
-  nro_documento VARCHAR,
-  fecha_fin_uso DATE,
-  estado VARCHAR(100),
-  CONSTRAINT tanexo_pkey PRIMARY KEY(id_anexo),
-  CONSTRAINT fk_anexo__id_contrato FOREIGN KEY (id_contrato)
-    REFERENCES leg.tcontrato(id_contrato)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-    NOT DEFERRABLE
-) INHERITS (pxp.tbase)
-
-WITH (oids = false);
+/***********************************I-SCP-FEA-LEG-1-07/11/2018*****************************************/
 
 CREATE TABLE leg.tcontrato (
   id_contrato SERIAL,
@@ -101,4 +78,29 @@ CREATE TRIGGER tcontrato_tr_fechas
   BEFORE INSERT OR UPDATE
   ON leg.tcontrato FOR EACH ROW
   EXECUTE PROCEDURE leg.f_tr_contrato_fecha();
-/***********************************F-SCP-FEA-LEG-1-7/11/2018*****************************************/
+
+  CREATE TABLE leg.tanexo (
+  id_anexo SERIAL,
+  id_contrato INTEGER NOT NULL,
+  tipo VARCHAR(30),
+  descripcion VARCHAR(1000),
+  fecha_desde DATE,
+  fecha_hasta DATE,
+  tipo_boleta VARCHAR(30),
+  moneda VARCHAR(3),
+  monto NUMERIC,
+  banco VARCHAR(30),
+  nro_documento VARCHAR,
+  fecha_fin_uso DATE,
+  estado VARCHAR(100),
+  CONSTRAINT tanexo_pkey PRIMARY KEY(id_anexo),
+  CONSTRAINT fk_anexo__id_contrato FOREIGN KEY (id_contrato)
+    REFERENCES leg.tcontrato(id_contrato)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+
+WITH (oids = false);
+
+/***********************************F-SCP-FEA-LEG-1-07/11/2018*****************************************/
