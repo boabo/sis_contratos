@@ -667,9 +667,7 @@ AS
      LEFT JOIN segu.tusuario usu2 ON usu2.id_usuario = anex.id_usuario_mod
      LEFT JOIN obingresos.tagencia agen ON agen.id_agencia = con.id_agencia
      LEFT JOIN param.tlugar lu ON lu.id_lugar = agen.id_lugar;
-     
-/***********************************F-DEP-BVP-LEG-1-16/05/2018*****************************************/  
-/***********************************I-DEP-BVP-LEG-1-16/05/2018*****************************************/
+
 CREATE OR REPLACE VIEW leg.vpoliza_boletas_otras (
     id_anexo,
     banco,
@@ -714,7 +712,8 @@ AS
      JOIN param.vproveedor prov ON prov.id_proveedor = con.id_proveedor
      LEFT JOIN segu.tusuario usu2 ON usu2.id_usuario = anex.id_usuario_mod
   WHERE con.tipo_agencia::text <> 'noiata'::text;
-/***********************************F-DEP-BVP-LEG-1-16/05/2018*****************************************/
+     
+/***********************************F-DEP-BVP-LEG-1-16/05/2018*****************************************/  
 
 
 /***********************************I-DEP-FEA-LEG-1-07/11/2018*****************************************/
@@ -736,79 +735,78 @@ select pxp.f_insert_testructura_gui ('WF.CON_vobo_abogado', 'WF.CON');
 select pxp.f_insert_testructura_gui ('WF.CON_pendiente_asignacion', 'WF.CON');
 select pxp.f_insert_testructura_gui ('WF.CON_firma_contraparte', 'WF.CON');
 select pxp.f_insert_testructura_gui ('WF.CON_vobo_gaf', 'WF.CON');
-select pxp.f_insert_tgui_rol ('LUG', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('PARAM', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('GESTIO', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('PARAM', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('ADQ.4', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('ADQ', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('MONPAR', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('CONIG', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('CCOM', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('ODT', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('CROT', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('CONTA', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('OFICI', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('PARAMRH', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('ORGA', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('PROVEE', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('FUNCIO', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('PROCRH', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('ORGA', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('WF.CON_finalizado', 'LEG- Contrato Finalizado');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG- Contrato Finalizado');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG- Contrato Finalizado');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG- Contrato Finalizado');
-select pxp.f_insert_tgui_rol ('WF.CON_finalizado', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('WF.CON_vobo_rpc', 'LEG-Firma RPC');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Firma RPC');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Firma RPC');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Firma RPC');
-select pxp.f_insert_tgui_rol ('WF.CON_digitalizacion', 'LEG-Digitalizacion');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Digitalizacion');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Digitalizacion');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Digitalizacion');
-select pxp.f_insert_tgui_rol ('WF.CON_archivo_legal', 'LEG-Digitalizacion');
-select pxp.f_insert_tgui_rol ('WF.CON_vobo_jefe_legal', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('WF.CON_vobo_jefe_legal', 'LEG - Jefe Legal');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG - Jefe Legal');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG - Jefe Legal');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG - Jefe Legal');
-select pxp.f_insert_tgui_rol ('WF.CON_firma_gerente', 'LEG-Gerencia');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Gerencia');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Gerencia');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Gerencia');
-select pxp.f_insert_tgui_rol ('WF.CON_registro', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('WF.CON_borrador', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('WF.CON_vobo_comercial', 'LEG-Firma comercial');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Firma comercial');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Firma comercial');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Firma comercial');
-select pxp.f_insert_tgui_rol ('WF.CON_revision', 'LEG-Revision');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Revision');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Revision');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Revision');
-select pxp.f_insert_tgui_rol ('WF.CON_vobo_abogado', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('WF.CON_pendiente_asignacion', 'LEG - Jefe Legal');
-select pxp.f_insert_tgui_rol ('WF.CON_firma_contraparte', 'LEG-Firma Contraparte');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Firma Contraparte');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Firma Contraparte');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Firma Contraparte');
-select pxp.f_insert_tgui_rol ('WF.CON_firma_contraparte', 'LEG-Abogado');
-select pxp.f_insert_tgui_rol ('WF.CON_firma_contraparte', 'LEG-Solicitante');
-select pxp.f_insert_tgui_rol ('WF.CON_vobo_gaf', 'LEG-Firma GAF');
-select pxp.f_insert_tgui_rol ('WF.CON', 'LEG-Firma GAF');
-select pxp.f_insert_tgui_rol ('LEG', 'LEG-Firma GAF');
-select pxp.f_insert_tgui_rol ('SISTEMA', 'LEG-Firma GAF');
-select pxp.f_insert_tgui_rol ('WF.1.2.4', 'LEG- Contrato Finalizado');
-select pxp.f_insert_tgui_rol ('WF.1.2', 'LEG- Contrato Finalizado');
-select pxp.f_insert_tgui_rol ('WF', 'LEG- Contrato Finalizado');
-select pxp.f_insert_tgui_rol ('WF.CON_finalizado', 'LEG - Jefe Legal');
-select pxp.f_delete_tgui_rol ('WF.CON_digitalizacion', 'LEG-Revision');
 /***********************************F-DEP-FEA-LEG-1-07/11/2018*****************************************/
+
+/***********************************I-DEP-FEA-LEG-1-27/11/2018*****************************************/
+select wf.f_import_ttipo_documento_estado ('insert','CONTRATO','CON','registro','CON','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('delete','CONTRATO','CON','finalizado','CON',NULL,NULL,NULL);
+select wf.f_import_ttipo_documento_estado ('insert','CONTRATO','CON','finalizado','CON','exigir','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','ADJ2','CON','registro','CON','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','ADJ1','CON','registro','CON','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('delete','CONTRATO','CON','revision','CON',NULL,NULL,NULL);
+select wf.f_import_ttipo_documento_estado ('delete','CONTRATO','CON','revision','CON',NULL,NULL,NULL);
+select wf.f_import_ttipo_documento_estado ('insert','ADJ2','CON','revision','CON','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','ADJ1','CON','revision','CON','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','CONTRATO','CON','revision','CON','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','contrato_adhesion','CON','borrador','CON','crear','superior','"{$tabla.contrato_adhesion}" = "si" and "{$tabla.tipo}" = "comercial"');
+select wf.f_import_ttipo_documento_estado ('insert','contrato_adhesion','CON','vobo_comercial','CON','exigir','superior','"{$tabla.contrato_adhesion}" = "si" and "{$tabla.tipo}" = "comercial"');
+select wf.f_import_ttipo_documento_estado ('delete','CONTRATO','CON','firma_contraparte','CON',NULL,NULL,NULL);
+select wf.f_import_ttipo_documento_estado ('insert','CONTRATO','CON','archivo_legal','CON','exigir','superior','"{$tabla.contrato_adhesion}"="si"');
+select wf.f_import_ttipo_documento_estado ('insert','ADJ1','CON','finalizado','CON','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','EPCONS','CON','borrador','CON','crear','superior','"{$tabla.tipo_persona}" = "juridica"');
+select wf.f_import_ttipo_documento_estado ('insert','EPCONS','CON','vobo_comercial','CON','exigir','superior','"{$tabla.tipo_persona}" = "juridica"');
+select wf.f_import_ttipo_documento_estado ('insert','PODRL','CON','borrador','CON','crear','superior','"{$tabla.tipo_persona}" = "juridica"');
+select wf.f_import_ttipo_documento_estado ('insert','PODRL','CON','vobo_comercial','CON','exigir','superior','"{$tabla.tipo_persona}" = "juridica"');
+select wf.f_import_ttipo_documento_estado ('insert','CIREP','CON','borrador','CON','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','CIREP','CON','vobo_comercial','CON','exigir','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','NIT','CON','borrador','CON','crear','superior','"{$tabla.tipo_agencia}" != "institucional"');
+select wf.f_import_ttipo_documento_estado ('insert','NIT','CON','vobo_comercial','CON','exigir','superior','"{$tabla.tipo_agencia}" != "institucional"');
+select wf.f_import_ttipo_documento_estado ('insert','LICFUN','CON','borrador','CON','crear','superior','"{$tabla.tipo_agencia}" = "noiata"');
+select wf.f_import_ttipo_documento_estado ('insert','LICFUN','CON','vobo_comercial','CON','exigir','superior','"{$tabla.tipo_agencia}" = "noiata"');
+select wf.f_import_ttipo_documento_estado ('insert','REGFUN','CON','borrador','CON','crear','superior','"{$tabla.tipo_agencia}" != "institucional"');
+select wf.f_import_ttipo_documento_estado ('insert','REGFUN','CON','vobo_comercial','CON','exigir','superior','"{$tabla.tipo_agencia}" != "institucional"');
+select wf.f_import_ttipo_documento_estado ('insert','BOLGAR','CON','borrador','CON','crear','superior','position("postpago" in "{$tabla.formas_pago}")>0');
+select wf.f_import_ttipo_documento_estado ('insert','BOLGAR','CON','vobo_comercial','CON','exigir','superior','position("postpago" in "{$tabla.formas_pago}")>0');
+select wf.f_import_ttipo_documento_estado ('insert','CARCONT','CON','borrador','CON','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','CARCONT','CON','vobo_comercial','CON','exigir','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','CONTRATO','CON','borrador','CON','crear','superior','"{$tabla.tipo}"="comercial"');
+select wf.f_import_ttipo_documento_estado ('insert','CONTRATO','CON','vobo_comercial','CON','insertar','superior','"{$tabla.tipo}"="comercial"');
+select wf.f_import_ttipo_proceso_origen ('insert','CON','LEGAL','COT','contrato_pendiente','obligatorio','adq.f_tiene_contrato');
+select wf.f_import_ttipo_proceso_origen ('insert','CON','LEGAL','COTINPD','contrato_pendiente','obligatorio','adq.f_tiene_contrato');
+select wf.f_import_ttipo_estado_rol ('delete','CON','finalizado','LEG- Contrato Finalizado');
+select wf.f_import_ttipo_estado_rol ('insert','CON','borrador','LEG-Solicitante');
+select wf.f_import_ttipo_estado_rol ('insert','CON','pendiente_asignacion','LEG - Jefe Legal');
+select wf.f_import_ttipo_estado_rol ('insert','CON','registro','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('insert','CON','finalizado','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('insert','CON','finalizado','LEG- Contrato Finalizado');
+select wf.f_import_ttipo_estado_rol ('insert','CON','firma_gerente','LEG-Gerencia');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Firma Contraparte');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('insert','CON','digitalizacion','LEG-Digitalizacion');
+select wf.f_import_ttipo_estado_rol ('delete','CON','vobo_abogado','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('delete','CON','vobo_jefe_legal','LEG - Jefe Legal');
+select wf.f_import_ttipo_estado_rol ('insert','CON','vobo_rpc','LEG-Firma RPC');
+select wf.f_import_ttipo_estado_rol ('insert','CON','vobo_gaf','LEG-Firma GAF');
+select wf.f_import_ttipo_estado_rol ('insert','CON','revision','LEG-Revision');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Firma Contraparte');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Solicitante');
+select wf.f_import_ttipo_estado_rol ('insert','CON','vobo_jefe_legal','LEG - Jefe Legal');
+select wf.f_import_ttipo_estado_rol ('insert','CON','vobo_jefe_legal','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('delete','CON','vobo_comercial','LEG-Firma comercial');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Solicitante');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Firma Contraparte');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Firma Contraparte');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Solicitante');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Firma Contraparte');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Solicitante');
+select wf.f_import_ttipo_estado_rol ('delete','CON','firma_contraparte','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('insert','CON','firma_contraparte','LEG-Solicitante');
+select wf.f_import_ttipo_estado_rol ('insert','CON','firma_contraparte','LEG-Abogado');
+select wf.f_import_ttipo_estado_rol ('insert','CON','firma_contraparte','LEG-Firma Contraparte');
+select wf.f_import_ttipo_estado_rol ('insert','CON','firma_contraparte','ADQ - Solicitud de Compra');
+select wf.f_import_ttipo_estado_rol ('insert','CON','archivo_legal','LEG-Digitalizacion');
+
+/***********************************F-DEP-FEA-LEG-1-27/11/2018*****************************************/
