@@ -28,11 +28,13 @@ BEGIN
            if (v_record.fecha_fin = NEW.fecha_inicio)then
            NEW.fecha_inicio = NEW.fecha_inicio + interval '1 day';
            update leg.tcontrato  set
+           	fecha_fin = now()::date,	
              estado = 'concluido'
              where id_agencia = NEW.id_agencia and fecha_fin = fecha_dos;
            else
            NEW.fecha_inicio = NEW.fecha_inicio;
            update leg.tcontrato  set
+           fecha_fin = now()::date,
              estado = 'concluido'
              where id_agencia = NEW.id_agencia and fecha_fin = fecha_dos;
            end if;

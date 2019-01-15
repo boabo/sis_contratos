@@ -6,6 +6,7 @@
 *@date 18-04-2018 20:02:21
 *@description Clase que recibe los parametros enviados por la vista para mandar a la capa de Modelo
 */
+require_once(dirname(__FILE__).'/../reportes/RBoletasGarantiaPDF.php');
 
 class ACTPolizaBoleta extends ACTbase{
 					
@@ -67,6 +68,35 @@ class ACTPolizaBoleta extends ACTbase{
 			$this->res->addLastRecDatos($temp);
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	
+	function RepBoletasGarantia(){
+
+		$nombreArchivo = 'BoletasGarantia'.uniqid(md5(session_id())).'.pdf';
+        $this->objFunc=$this->create('MODPolizaBoleta');
+        $this->res=$this->objFunc->RepBoletasGarantia($this->objParam);		
+	    
+        //parametros basicoss
+        $tamano = 'LETTER';
+        $orientacion = 'L';
+        $titulo = 'Consolidado';
+
+
+        $this->objParam->addParametro('orientacion',$orientacion);
+        $this->objParam->addParametro('tamano',$tamano);
+        $this->objParam->addParametro('titulo_archivo',$titulo);
+        $this->objParam->addParametro('nombre_archivo',$nombreArchivo);
+		
+		$this->objReporteFormato = new RBoletasGarantiaPDF($this->objParam);
+		$this->objReporteFormato->setDatos($this->res->datos);
+		$this->objReporteFormato->generarReporte();
+		$this->objReporteFormato->output($this->objReporteFormato->url_archivo, 'F');
+
+		$this->mensajeExito=new Mensaje();
+		$this->mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado','Se generó con éxito el reporte: '.$nombreArchivo,'control');
+		$this->mensajeExito->setArchivoGenerado($nombreArchivo);
+		$this->mensajeExito->imprimirRespuesta($this->mensajeExito->generarJson());
+
 	}
 	
 }

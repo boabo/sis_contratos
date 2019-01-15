@@ -70,7 +70,7 @@ BEGIN
 						from leg.vpoliza_boletas pobo
 						inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
-				        where';
+				        where pobo.tipo_agencia=''noiata'' and ';
 			--raise notice 'v_consulta%',v_consulta;
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -96,7 +96,7 @@ BEGIN
 					    from leg.vpoliza_boletas pobo
 					    inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
-					    where ';
+					    where pobo.tipo_agencia=''noiata'' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -171,7 +171,48 @@ BEGIN
 			--Devuelve la respuesta
 			return v_consulta;
 
-		end;            
+		end;
+  /*********************************    
+ 	#TRANSACCION:  'LG_RBSGAR_SEL'
+ 	#DESCRIPCION:	Conteo de registros
+ 	#AUTOR:		breydi.vasquez	
+ 	#FECHA:		11-01-2019
+	***********************************/
+
+	elsif(p_transaccion='LG_RBSGAR_SEL')then
+
+		begin
+			--Sentencia de la consulta de conteo de registros
+        v_anio1 = date_part('year', v_parametros.fecha_desde)::varchar;
+        v_anio2 = date_part('year', v_parametros.fecha_hasta)::varchar;
+			v_consulta:='select
+                         anex.banco,
+                         anex.nro_documento,
+                         anex.tipo_boleta as tipo,
+                         COALESCE(agen.nombre, prov.desc_proveedor) AS agencia,
+                         leg.f_fecha_dia_mes_literal_anio(anex.fecha_desde) as fecha_desde,
+                         leg.f_fecha_dia_mes_literal_anio(anex.fecha_hasta) as fecha_hasta,
+                         anex.monto AS asegurado,
+                         con.tipo_agencia,
+                         anex.estado,
+                         ges.gestion
+                       FROM leg.tcontrato con
+                       JOIN leg.tanexo anex ON anex.id_contrato = con.id_contrato
+                       LEFT JOIN obingresos.tagencia agen ON agen.id_agencia = con.id_agencia
+                       LEFT JOIN param.vproveedor prov ON prov.id_proveedor = con.id_proveedor
+                       LEFT join param.tgestion ges on ges.id_gestion = con.id_gestion                       
+		           where COALESCE(anex.fecha_fin_uso, anex.fecha_hasta) >= now()
+                   and (anex.estado is null or anex.estado = '''')
+					and anex.fecha_desde between '''||v_parametros.fecha_desde||'''::date and '''||v_parametros.fecha_hasta||'''::date and';
+                       
+			--Definicion de la respuesta		    
+			v_consulta:=v_consulta||v_parametros.filtro;
+            v_consulta:=v_consulta||' order by anex.fecha_desde asc';
+
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;		            
 					
 	else
 					     

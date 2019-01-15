@@ -20,9 +20,7 @@ class MODPolizaBoleta extends MODbase{
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 
 		$this->capturaCount('total_asegurado','numeric');
-		//$this->setParametro('fecha_fin_uso','fecha_fin_uso','integer');		
-		//Definicion de la lista del resultado del query
-		//$this->captura('id_poliza_voletos','int4');
+		
 		$this->captura('id_anexo','int4');
 		$this->captura('estado_reg','varchar');
 		$this->captura('agencia','varchar');
@@ -92,84 +90,34 @@ class MODPolizaBoleta extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
-			
-	/*function insertarPolizaVoletos(){
-		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='leg.ft_poliza_voletos_ime';
-		$this->transaccion='LG_POBO_INS';
-		$this->tipo_procedimiento='IME';
+	
+	function RepBoletasGarantia() {
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='leg.ft_poliza_boleta_sel';
+		$this->transaccion='LG_RBSGAR_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
 				
-		//Define los parametros para la funcion
-		$this->setParametro('estado_reg','estado_reg','varchar');
-		$this->setParametro('agencia','agencia','varchar');
 		$this->setParametro('fecha_desde','fecha_desde','date');
-		$this->setParametro('moneda','moneda','varchar');
-		$this->setParametro('asegurado','asegurado','numeric');
-		$this->setParametro('codigo_noiata','codigo_noiata','varchar');
-		$this->setParametro('codigo','codigo','varchar');
 		$this->setParametro('fecha_hasta','fecha_hasta','date');
-		$this->setParametro('fecha_corte','fecha_corte','date');
-		$this->setParametro('codigo_int','codigo_int','varchar');
-		$this->setParametro('fecha_notif','fecha_notif','date');
-		$this->setParametro('tipo','tipo','varchar');
-		$this->setParametro('contrato','contrato','varchar');
-		$this->setParametro('banco','banco','varchar');
+
+        $this->captura('banco','varchar');
+        $this->captura('nro_documento','varchar');
+        $this->captura('tipo','varchar');
+        $this->captura('agencia','varchar');
+        $this->captura('fecha_desde','text');
+        $this->captura('fecha_hasta','text');
+        $this->captura('asegurado','numeric');
+        $this->captura('tipo_agencia','varchar');
+        $this->captura('estado','varchar');
+        $this->captura('gestion','integer');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
-
+		
 		//Devuelve la respuesta
-		return $this->respuesta;
+		return $this->respuesta;		
 	}
-			
-	function modificarPolizaVoletos(){
-		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='leg.ft_poliza_voletos_ime';
-		$this->transaccion='LG_POBO_MOD';
-		$this->tipo_procedimiento='IME';
-				
-		//Define los parametros para la funcion
-		//$this->setParametro('id_poliza_voletos','id_poliza_voletos','int4');
-		$this->setParametro('estado_reg','estado_reg','varchar');
-		$this->setParametro('agencia','agencia','varchar');
-		$this->setParametro('fecha_desde','fecha_desde','date');
-		$this->setParametro('moneda','moneda','varchar');
-		$this->setParametro('asegurado','asegurado','numeric');
-		$this->setParametro('codigo_noiata','codigo_noiata','varchar');
-		$this->setParametro('codigo','codigo','varchar');
-		$this->setParametro('fecha_hasta','fecha_hasta','date');
-		$this->setParametro('fecha_corte','fecha_corte','date');
-		$this->setParametro('codigo_int','codigo_int','varchar');
-		$this->setParametro('fecha_notif','fecha_notif','date');
-		$this->setParametro('tipo','tipo','varchar');
-		$this->setParametro('contrato','contrato','varchar');
-		$this->setParametro('banco','banco','varchar');
-
-		//Ejecuta la instruccion
-		$this->armarConsulta();
-		$this->ejecutarConsulta();
-
-		//Devuelve la respuesta
-		return $this->respuesta;
-	}
-			
-	function eliminarPolizaVoletos(){
-		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='leg.ft_poliza_voletos_ime';
-		$this->transaccion='LG_POBO_ELI';
-		$this->tipo_procedimiento='IME';
-				
-		//Define los parametros para la funcion
-		$this->setParametro('id_poliza_voletos','id_poliza_voletos','int4');
-
-		//Ejecuta la instruccion
-		$this->armarConsulta();
-		$this->ejecutarConsulta();
-
-		//Devuelve la respuesta
-		return $this->respuesta;
-	}*/
 			
 }
 ?>
