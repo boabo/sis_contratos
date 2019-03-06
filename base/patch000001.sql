@@ -104,3 +104,76 @@ CREATE TRIGGER tcontrato_tr_fechas
 WITH (oids = false);
 
 /***********************************F-SCP-FEA-LEG-1-07/11/2018*****************************************/
+
+/***********************************I-SCP-IRVA-LEG-1-06/03/2019*****************************************/
+CREATE TABLE leg.tdato_anterior_contrato (
+  id_contrato INTEGER,
+  id_estado_wf INTEGER,
+  id_proceso_wf INTEGER,
+  estado VARCHAR(50),
+  tipo VARCHAR(30),
+  objeto TEXT,
+  fecha_inicio DATE,
+  fecha_fin DATE,
+  numero VARCHAR(50),
+  id_gestion INTEGER,
+  id_persona INTEGER,
+  id_institucion INTEGER,
+  id_proveedor INTEGER,
+  observaciones TEXT,
+  solicitud TEXT,
+  monto NUMERIC(18,2),
+  id_moneda INTEGER,
+  fecha_elaboracion DATE,
+  plazo INTEGER,
+  tipo_plazo VARCHAR,
+  id_cotizacion INTEGER,
+  marri VARCHAR(20),
+  periodicidad_pago VARCHAR(50),
+  tiene_retencion VARCHAR(2),
+  fk_id_contrato INTEGER,
+  modo VARCHAR(30),
+  id_lugar INTEGER,
+  id_contrato_fk INTEGER,
+  id_concepto_ingas INTEGER[][] [],
+  id_orden_trabajo INTEGER[][] [],
+  cargo VARCHAR(50),
+  forma_contratacion VARCHAR(30),
+  modalidad VARCHAR(30),
+  representante_legal VARCHAR(100),
+  rpc VARCHAR(100),
+  mae VARCHAR(100),
+  contrato_adhesion VARCHAR(2),
+  id_abogado INTEGER,
+  id_funcionario INTEGER,
+  rpc_regional VARCHAR DEFAULT 'no'::character varying,
+  bancarizacion VARCHAR(2),
+  tipo_monto VARCHAR,
+  resolucion_bancarizacion VARCHAR,
+  id_agencia INTEGER,
+  tipo_agencia VARCHAR(30),
+  moneda_restrictiva VARCHAR(2),
+  cuenta_bancaria1 VARCHAR(30),
+  entidad_bancaria1 VARCHAR(45),
+  nombre_cuenta_bancaria1 VARCHAR(100),
+  cuenta_bancaria2 VARCHAR(30),
+  entidad_bancaria2 VARCHAR(45),
+  nombre_cuenta_bancaria2 VARCHAR(100),
+  formas_pago VARCHAR[][] [],
+  accion VARCHAR(200),
+  responsable VARCHAR(50)
+) INHERITS (pxp.tbase)
+
+WITH (oids = false);
+
+CREATE TRIGGER control_eliminacion
+  BEFORE UPDATE OR DELETE
+  ON leg.tdato_anterior_contrato FOR EACH ROW
+  EXECUTE PROCEDURE leg.f_control_eliminacion_datos_modificados();
+
+CREATE TRIGGER control_modificaciones
+  AFTER UPDATE OR DELETE
+  ON leg.tcontrato FOR EACH ROW
+  EXECUTE PROCEDURE leg.f_control_actualizaciones_contrato();
+  
+/***********************************F-SCP-IRVA-LEG-1-06/03/2019*****************************************/
