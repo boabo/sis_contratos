@@ -166,14 +166,4 @@ CREATE TABLE leg.tdato_anterior_contrato (
 
 WITH (oids = false);
 
-CREATE TRIGGER control_eliminacion
-  BEFORE UPDATE OR DELETE
-  ON leg.tdato_anterior_contrato FOR EACH ROW
-  EXECUTE PROCEDURE leg.f_control_eliminacion_datos_modificados();
-
-CREATE TRIGGER control_modificaciones
-  AFTER UPDATE OR DELETE
-  ON leg.tcontrato FOR EACH ROW
-  EXECUTE PROCEDURE leg.f_control_actualizaciones_contrato();
-  
 /***********************************F-SCP-IRVA-LEG-1-06/03/2019*****************************************/

@@ -254,7 +254,7 @@ AS
         fkcon.id_institucion
        LEFT JOIN param.vproveedor fkpro ON fkpro.id_proveedor =
         fkcon.id_proveedor;
-       
+
 /***********************************F-DEP-JRR-LEG-1-26/02/2015*****************************************/
 
 
@@ -369,8 +369,8 @@ FROM leg.tcontrato con
 /***********************************F-DEP-RCM-LEG-1-28/02/2015*****************************************/
 
 /***********************************I-DEP-RCM-LEG-1-03/03/2015*****************************************/
-CREATE TRIGGER tcontrato_tr BEFORE UPDATE 
-ON leg.tcontrato FOR EACH ROW 
+CREATE TRIGGER tcontrato_tr BEFORE UPDATE
+ON leg.tcontrato FOR EACH ROW
 EXECUTE PROCEDURE leg.f_tr_contrato();
 /***********************************F-DEP-RCM-LEG-1-03/03/2015*****************************************/
 
@@ -607,7 +607,7 @@ AS
        LEFT JOIN orga.vfuncionario fun ON fun.id_funcionario =
          con.id_funcionario
        LEFT JOIN orga.vfuncionario abo ON abo.id_funcionario = con.id_abogado;
-   
+
 
 /***********************************F-DEP-JRR-LEG-1-29/05/2015*****************************************/
 
@@ -712,8 +712,8 @@ AS
      JOIN param.vproveedor prov ON prov.id_proveedor = con.id_proveedor
      LEFT JOIN segu.tusuario usu2 ON usu2.id_usuario = anex.id_usuario_mod
   WHERE con.tipo_agencia::text <> 'noiata'::text;
-     
-/***********************************F-DEP-BVP-LEG-1-16/05/2018*****************************************/  
+
+/***********************************F-DEP-BVP-LEG-1-16/05/2018*****************************************/
 
 
 /***********************************I-DEP-FEA-LEG-1-07/11/2018*****************************************/
@@ -810,3 +810,16 @@ select wf.f_import_ttipo_estado_rol ('insert','CON','firma_contraparte','ADQ - S
 select wf.f_import_ttipo_estado_rol ('insert','CON','archivo_legal','LEG-Digitalizacion');
 
 /***********************************F-DEP-FEA-LEG-1-27/11/2018*****************************************/
+
+/***********************************I-DEP-IRVA-LEG-1-06/03/2019*****************************************/
+CREATE TRIGGER control_eliminacion
+  BEFORE UPDATE OR DELETE
+  ON leg.tdato_anterior_contrato FOR EACH ROW
+  EXECUTE PROCEDURE leg.f_control_eliminacion_datos_modificados();
+
+CREATE TRIGGER control_modificaciones
+  AFTER UPDATE OR DELETE
+  ON leg.tcontrato FOR EACH ROW
+  EXECUTE PROCEDURE leg.f_control_actualizaciones_contrato();
+
+/***********************************F-DEP-IRVA-LEG-1-06/03/2019*****************************************/
