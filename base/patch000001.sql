@@ -167,3 +167,7 @@ CREATE TABLE leg.tdato_anterior_contrato (
 WITH (oids = false);
 
 /***********************************F-SCP-IRVA-LEG-1-06/03/2019*****************************************/
+/***********************************I-SCP-IRVA-LEG-2-06/03/2019*****************************************/
+ALTER TABLE leg.tdato_anterior_contrato
+  ADD COLUMN "current_user" VARCHAR(200) DEFAULT CURRENT_USER NOT NULL;
+/***********************************F-SCP-IRVA-LEG-2-06/03/2019*****************************************/
