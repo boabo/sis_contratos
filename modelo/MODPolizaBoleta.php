@@ -99,6 +99,7 @@ class MODPolizaBoleta extends MODbase{
 				
 		$this->setParametro('fecha_desde','fecha_desde','date');
 		$this->setParametro('fecha_hasta','fecha_hasta','date');
+		$this->setParametro('boleta_filtro','boleta_filtro','varchar');
 
         $this->captura('banco','varchar');
         $this->captura('nro_documento','varchar');
@@ -113,6 +114,7 @@ class MODPolizaBoleta extends MODbase{
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo($this->consulta);exit;
 		$this->ejecutarConsulta();
 		
 		//Devuelve la respuesta

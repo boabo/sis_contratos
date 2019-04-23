@@ -10,13 +10,37 @@ header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
     Phx.vista.ReporteBoletasGarantia = Ext.extend(Phx.frmInterfaz, {
-        Atributos : [                      
+        Atributos : [
+	        {
+	            config : {
+	                name :'boleta_filtro',
+	                fieldLabel : 'Filtro',
+	                allowBlank : true,
+	                triggerAction : 'all',
+	                lazyRender : true,
+	                //listWidth: 200,
+	                mode : 'local',
+	                store : new Ext.data.ArrayStore({
+	                    fields : ['tipo', 'valor'],
+	                    data : [['vencida', 'Boletas Vencidas'],
+	                            ['vigente', 'Boletas Vigentes']]
+	                }),
+	                anchor : '40%',
+	                gwidth : 100,
+	                valueField : 'tipo',
+	                displayField : 'valor'
+	            },
+	            type : 'ComboBox',
+	            id_grupo : 1,
+	            grid : false,
+	            form : true
+	        },                              
             {
                 config:{
                     name: 'fecha_desde',
                     fieldLabel: 'Fecha Desde',
                     allowBlank: false,
-                    anchor: '30%',
+                    anchor: '40%',
                     gwidth: 100,
                     format: 'd/m/Y',
                     renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
@@ -32,7 +56,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     name: 'fecha_hasta',
                     fieldLabel: 'Fecha Hasta',
                     allowBlank: false,
-                    anchor: '30%',
+                    anchor: '40%',
                     gwidth: 100,
                     format: 'd/m/Y',
                     renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
@@ -42,7 +66,8 @@ header("content-type: text/javascript; charset=UTF-8");
                 id_grupo:1,
                 grid:true,
                 form:true
-            }],
+            }            
+            ],
 
         title : 'Reporte Boletas De Garantia',
         ActSave : '../../sis_contratos/control/PolizaBoleta/RepBoletasGarantia',
