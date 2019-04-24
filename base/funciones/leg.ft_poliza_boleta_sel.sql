@@ -28,6 +28,8 @@ DECLARE
 	v_resp				varchar;
     v_anio1		varchar;
     v_anio2		varchar;
+    v_filtro			varchar;
+    v_f_date			date;    
 
 BEGIN
 
@@ -186,8 +188,15 @@ BEGIN
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-        v_anio1 = date_part('year', v_parametros.fecha_desde)::varchar;
-        v_anio2 = date_part('year', v_parametros.fecha_hasta)::varchar;
+      if v_parametros.boleta_filtro = 'vencida' then    
+          --v_filtro = 'coalesce(anex.fecha_fin_uso,anex.fecha_hasta) between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';
+      		v_filtro = 'anex.fecha_hasta between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';
+         elsif v_parametros.boleta_filtro = 'vigente' then 
+          v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';
+        else         
+          --v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';
+        end if;
+        
 			v_consulta:='select
              anex.banco,
              anex.nro_documento,
@@ -204,16 +213,18 @@ BEGIN
            LEFT JOIN obingresos.tagencia agen ON agen.id_agencia = con.id_agencia
            LEFT JOIN param.vproveedor prov ON prov.id_proveedor = con.id_proveedor
            LEFT join param.tgestion ges on ges.id_gestion = con.id_gestion
-        where COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>= '''||v_parametros.fecha_hasta||'''::date
-			 and coalesce(anex.fecha_fin_uso, anex.fecha_hasta) <> ''26/01/2020''::date
-               and (anex.estado is null or anex.estado = '''') and';
+        where 
+        '||v_filtro||'
+        and (anex.estado is null or anex.estado = '''' or anex.estado in (''devuelto'',''ejecutado'')) and anex.banco not like ''%FICTICI%''
+        and ';
 
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
             v_consulta:=v_consulta||' order by anex.fecha_desde asc';
-
+			raise notice '%',v_consulta;
 			--Devuelve la respuesta
 			return v_consulta;
+
 
 		end;
 
