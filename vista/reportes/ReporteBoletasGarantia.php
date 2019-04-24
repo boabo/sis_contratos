@@ -15,7 +15,7 @@ header("content-type: text/javascript; charset=UTF-8");
 	            config : {
 	                name :'boleta_filtro',
 	                fieldLabel : 'Filtro',
-	                allowBlank : true,
+	                allowBlank : false,
 	                triggerAction : 'all',
 	                lazyRender : true,
 	                //listWidth: 200,
@@ -25,7 +25,7 @@ header("content-type: text/javascript; charset=UTF-8");
 	                    data : [['vencida', 'Boletas Vencidas'],
 	                            ['vigente', 'Boletas Vigentes']]
 	                }),
-	                anchor : '40%',
+	                anchor : '30%',
 	                gwidth : 100,
 	                valueField : 'tipo',
 	                displayField : 'valor'
@@ -40,7 +40,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     name: 'fecha_desde',
                     fieldLabel: 'Fecha Desde',
                     allowBlank: false,
-                    anchor: '40%',
+                    anchor: '30%',
                     gwidth: 100,
                     format: 'd/m/Y',
                     renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
@@ -56,7 +56,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     name: 'fecha_hasta',
                     fieldLabel: 'Fecha Hasta',
                     allowBlank: false,
-                    anchor: '40%',
+                    anchor: '30%',
                     gwidth: 100,
                     format: 'd/m/Y',
                     renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
@@ -80,10 +80,24 @@ header("content-type: text/javascript; charset=UTF-8");
         constructor : function(config) {
             Phx.vista.ReporteBoletasGarantia.superclass.constructor.call(this, config);
             this.init();
+            this.iniciarEvento();
             
         },        
         tipo : 'reporte',
-        clsSubmit : 'bprint'
+        clsSubmit : 'bprint',
+        
+        iniciarEvento : function (){
+        	this.Cmp.boleta_filtro.on('select', function (combo,record,index){
+        		var  combo = record.data.tipo;
+        		if (combo == 'vigente') {
+        			this.ocultarComponente(this.Cmp.fecha_desde);
+        			this.Cmp.fecha_desde.allowBlank = true;
+        		}else{
+        			this.mostrarComponente(this.Cmp.fecha_desde);
+        			this.Cmp.fecha_desde.allowBlank = false;        			
+        		}       		
+        	},this)
+        }
 
     })
 </script>

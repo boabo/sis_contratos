@@ -37,8 +37,10 @@ EOF;
     function generarReporte()
     {
     	$fecha_desde = $this->objParam->getParametro('fecha_desde');
-		$fecha_hasta = $this->objParam->getParametro('fecha_hasta');		
-        $this->headAgen('AGENCIAS DE VIAJES NO IATA','VCTO',$fecha_desde,$fecha_hasta);
+		$fecha_hasta = $this->objParam->getParametro('fecha_hasta');
+		$boleta = 'VIGENTES';
+		$this->objParam->getParametro('boleta_filtro')!='vigente' && $boleta = 'VENCIDAS';	
+        $this->headAgen('AGENCIAS DE VIAJES NO IATA','VCTO',$fecha_desde,$fecha_hasta,$boleta);				
         $this->Ln();
         $contador=1;
 
@@ -93,7 +95,7 @@ EOF;
         $this->Cell(68,6,number_format($sum_no_iata,2,',','.'),'TBL',0,'R');
         $this->Cell(20,6,'','TBR',0,'C');
 
-        $this->headAgen('AGENCIAS DE VIAJES IATA','VCTO',$fecha_desde,$fecha_hasta);
+        $this->headAgen('AGENCIAS DE VIAJES IATA','VCTO',$fecha_desde,$fecha_hasta,$boleta);
         $this->Ln();
         $sum_iata = 0;
         foreach($this->datos as $record){
@@ -126,7 +128,7 @@ EOF;
         $this->Cell(68,6,number_format($sum_iata,2,',','.'),'TBL',0,'R');
         $this->Cell(20,6,'','TBR',0,'C');
 
-        $this->headAgen('SERVICIOS','HASTA',$fecha_desde,$fecha_hasta);
+        $this->headAgen('SERVICIOS','HASTA',$fecha_desde,$fecha_hasta,$boleta);
         $this->Ln();
         $sum_serv = 0;
         foreach($this->datos as $record){
@@ -180,13 +182,13 @@ EOF;
         $this->Cell(20,6,'','TBRL',0,'C');
 
     }
-    function headAgen($agen,$hasta,$fecha_desde,$fecha_hasta) {
+    function headAgen($agen,$hasta,$fecha_desde,$fecha_hasta,$bol) {
         $this->AddPage();
         $this->SetMargins(2, 10, 2);
         $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         $this->SetFont('','B',10);
         $this->Cell(0,5,"DETALLE DE POLIZAS Y BOLETAS DE GARANTIA",0,1,'C');
-        $this->Cell(0,5,"$agen",0,1,'C');
+        $this->Cell(0,5,"$agen"." ".$bol,0,1,'C');
 		$this->Cell(0,5,"DEL: ".$fecha_desde." AL ".$fecha_hasta,0,1,'C');
         $this->Ln(10);
 
