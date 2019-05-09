@@ -37,7 +37,7 @@ BEGIN
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************
- 	#TRANSACCION:  'LG_POBO_SEL'
+ 	#TRANSACCION:  'LG_POBOA_SEL'
  	#DESCRIPCION:	Consulta de datos
  	#AUTOR:		breydi.vasquez
  	#FECHA:		18-04-2018 20:02:21
@@ -70,16 +70,27 @@ BEGIN
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
                         pobo.id_usuario_reg,
-                        pobo.id_usuario_mod
+                        pobo.id_usuario_mod,
+                        pobo.observaciones,
+                        pobo.id_agencia,
+                        pobo.estado_contrato,
+                        pobo.id_proceso_wf,
+                        pobo.id_estado_wf,
+                        pobo.nro_hoja_ruta,
+                        pobo.id_contrato,
+                        pobo.id_gestion,
+                        ges.gestion,
+                        pobo.id_proveedor                        
 						from leg.vpoliza_boletas pobo
 						inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
+						inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
 				        where pobo.tipo_agencia=''noiata'' and ';
-			--raise notice 'v_consulta%',v_consulta;
+			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
-			--raise exception '%',v_consulta;
+			--raise notice '%',v_consulta;
 			--Devuelve la respuesta
 			return v_consulta;
 
@@ -100,6 +111,7 @@ BEGIN
 					    from leg.vpoliza_boletas pobo
 					    inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
+						inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
 					    where pobo.tipo_agencia=''noiata'' and ';
 
 			--Definicion de la respuesta
@@ -138,16 +150,30 @@ BEGIN
                         usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
                         pobo.id_usuario_reg,
-                        pobo.id_usuario_mod
+                        pobo.id_usuario_mod,
+                        pobo.id_usuario_mod,
+                        pobo.tipo_agencia,
+                        pobo.observaciones,
+                        pobo.estado_contrato,
+                        pobo.id_proceso_wf,
+                        pobo.id_estado_wf,
+                        pobo.nro_hoja_ruta,
+                        pobo.id_contrato,
+                        pobo.id_gestion,
+                        ges.gestion,
+                        pobo.id_proveedor,
+                        pobo.id_institucion,
+                        pobo.institucion                        
 						from leg.vpoliza_boletas_otras pobo
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
+                        inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion						
 				        where ';
-			--raise notice 'v_consulta%',v_consulta;
+			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
-
+			--raise notice 'v_consulta%',v_consulta;
 			--Devuelve la respuesta
 			return v_consulta;
 
@@ -167,6 +193,7 @@ BEGIN
 					    from leg.vpoliza_boletas_otras pobo
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
+                        inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion						
 					    where ';
 
 			--Definicion de la respuesta

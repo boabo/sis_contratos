@@ -171,3 +171,23 @@ WITH (oids = false);
 ALTER TABLE leg.tdato_anterior_contrato
   ADD COLUMN "current_user" VARCHAR(200) DEFAULT CURRENT_USER NOT NULL;
 /***********************************F-SCP-IRVA-LEG-2-06/03/2019*****************************************/
+
+/***********************************I-SCP-BVP-LEG-1-26/04/2019*****************************************/
+ALTER TABLE leg.tanexo
+  ADD COLUMN nro_hoja_ruta 		VARCHAR(250);
+
+ALTER TABLE leg.tanexo
+  ADD COLUMN id_proceso_wf		INTEGER;
+  
+ALTER TABLE leg.tanexo
+  ADD COLUMN id_estado_wf	 	INTEGER;
+
+ALTER TABLE leg.tanexo
+  ADD COLUMN id_institucion	 	INTEGER;  
+  
+ALTER TABLE leg.tanexo
+  ADD COLUMN origen				VARCHAR(250);    
+/***********************************F-SCP-BVP-LEG-1-26/04/2019*****************************************/
+
+
+

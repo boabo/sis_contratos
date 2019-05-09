@@ -8,15 +8,14 @@
 */
 require_once(dirname(__FILE__).'/../reportes/RBoletasGarantiaPDF.php');
 
+
 class ACTPolizaBoleta extends ACTbase{
 					
 	function listarPolizaBoleta(){
-		//$fecha = $this->objParam->getParametro('fecha_fin_uso');
-		//$this->objParam->defecto('ordenacion','fecha_hasta');
-		//$this->objParam->defecto('dir_ordenacion','asc');
+
+		$this->objParam->getParametro('tipo_interfaz')=='noIata' && $this->objParam->addFiltro("pobo.tipo_agencia=''noiata''");		
 		
-        if($this->objParam->getParametro('pes_estado')=='vigente'){
-        	//$this->objParam->addFiltro("FUNCIO.id_funcionario= ".$_SESSION["_ID_FUNCIOANRIO_OFUS"]);
+        if($this->objParam->getParametro('pes_estado')=='vigente'){        	
              $this->objParam->addFiltro("COALESCE(fecha_fin_uso, pobo.fecha_hasta) >= now()");
         }else{
         	$this->objParam->addFiltro("COALESCE(fecha_fin_uso, pobo.fecha_hasta) < now()");
@@ -44,6 +43,14 @@ class ACTPolizaBoleta extends ACTbase{
 	
 	function listarPolizaBoletaOtra(){
 			
+		$this->objParam->getParametro('tipo_interfaz') == 'noiata' && $this->objParam->addFiltro("(pobo.tipo_agencia <> ''iata'' or pobo.tipo_agencia is null)");
+		
+		$this->objParam->getParametro('tipo_interfaz') == 'iata' && $this->objParam->addFiltro("(pobo.tipo_agencia = ''iata'' or pobo.origen=''iata'')");
+		
+		$this->objParam->getParametro('tipo_interfaz') == 'servicio' && $this->objParam->addFiltro("pobo.origen = ''servicio''");
+		
+		$this->objParam->getParametro('tipo_interfaz') == 'carga' && $this->objParam->addFiltro("pobo.origen = ''carga''");
+					
 		if($this->objParam->getParametro('pes_estado')=='vigente'){
         	
              $this->objParam->addFiltro("COALESCE(fecha_fin_uso, pobo.fecha_hasta) >= now()");
@@ -98,7 +105,54 @@ class ACTPolizaBoleta extends ACTbase{
 		$this->mensajeExito->imprimirRespuesta($this->mensajeExito->generarJson());
 
 	}
+
+	function listarContratoBoleta(){
+		$this->objParam->getParametro('id_proveedor')!='' && $this->objParam->addFiltro("con.id_proveedor"." = ".$this->objParam->getParametro('id_proveedor'));
+		$this->objParam->getParametro('vista')=='noIata' && $this->objParam->addFiltro("con.tipo_agencia=''noiata''");
+		$this->objParam->getParametro('vista')=='otros' && $this->objParam->addFiltro("con.tipo_agencia not in (''noiata'',''iata'')");
+		$this->objParam->getParametro('vista')=='Iata' && $this->objParam->addFiltro("con.tipo_agencia=''iata''");					
+		$this->objFunc=$this->create('MODPolizaBoleta');			
+		$this->res=$this->objFunc->listarContratoBoleta($this->objParam);		
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 	
+	function insertarPolizaBoleta(){
+		$this->objFunc=$this->create('MODPolizaBoleta');	
+		if($this->objParam->insertar('id_anexo')){
+			$this->res=$this->objFunc->insertarPolizaBoleta($this->objParam);			
+		} else{			
+			$this->res=$this->objFunc->modificarPolizaBoleta($this->objParam);
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());		
+	}
+
+	function eliminarPolizaBoleta(){
+		$this->objFunc=$this->create('MODPolizaBoleta');
+		$this->res=$this->objFunc->eliminarPolizaBoleta($this->objParam);
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	
+	function listarBancos(){			
+		$this->objFunc=$this->create('MODPolizaBoleta');			
+		$this->res=$this->objFunc->listarBancos($this->objParam);		
+		$this->res->imprimirRespuesta($this->res->generarJson());		
+	}	
+	
+	function siguienteEstadoBoleta() {
+        $this->objFunc=$this->create('MODPolizaBoleta');  
+        
+        $this->objParam->addParametro('id_funcionario_usu',$_SESSION["ss_id_funcionario"]); 
+        
+        $this->res=$this->objFunc->siguienteEstadoBoleta($this->objParam);
+        $this->res->imprimirRespuesta($this->res->generarJson());		
+	}
+    function mailBoletasGarantia(){
+
+        $this->objFunc=$this->create('MODPolizaBoleta');
+        $this->res=$this->objFunc->mailBoletasGarantia($this->objParam);
+        $this->res->imprimirRespuesta($this->res->generarJson());
+        exit;
+    }		
 }
 
 ?>
