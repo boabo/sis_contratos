@@ -29,7 +29,7 @@ DECLARE
     v_anio1		varchar;
     v_anio2		varchar;
     v_filtro			varchar;
-    v_f_date			date;    
+    v_f_date			date;
 
 BEGIN
 
@@ -80,13 +80,13 @@ BEGIN
                         pobo.id_contrato,
                         pobo.id_gestion,
                         ges.gestion,
-                        pobo.id_proveedor                        
+                        pobo.id_proveedor
 						from leg.vpoliza_boletas pobo
 						inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
 						inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
 				        where pobo.tipo_agencia=''noiata'' and ';
-			
+
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
@@ -151,7 +151,7 @@ BEGIN
 						usu2.cuenta as usr_mod,
                         pobo.id_usuario_reg,
                         pobo.id_usuario_mod,
-                        pobo.id_usuario_mod,
+                        --pobo.id_usuario_mod,
                         pobo.tipo_agencia,
                         pobo.observaciones,
                         pobo.estado_contrato,
@@ -163,13 +163,13 @@ BEGIN
                         ges.gestion,
                         pobo.id_proveedor,
                         pobo.id_institucion,
-                        pobo.institucion                        
+                        pobo.institucion
 						from leg.vpoliza_boletas_otras pobo
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
-                        inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion						
+                        inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
 				        where ';
-			
+
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
@@ -193,7 +193,7 @@ BEGIN
 					    from leg.vpoliza_boletas_otras pobo
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
-                        inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion						
+                        inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
 					    where ';
 
 			--Definicion de la respuesta
@@ -215,15 +215,15 @@ BEGIN
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-      if v_parametros.boleta_filtro = 'vencida' then    
+      if v_parametros.boleta_filtro = 'vencida' then
           --v_filtro = 'coalesce(anex.fecha_fin_uso,anex.fecha_hasta) between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';
       		v_filtro = 'anex.fecha_hasta between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';
-         elsif v_parametros.boleta_filtro = 'vigente' then 
+         elsif v_parametros.boleta_filtro = 'vigente' then
           v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';
-        else         
+        else
           --v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';
         end if;
-        
+
 			v_consulta:='select
              anex.banco,
              anex.nro_documento,
@@ -240,7 +240,7 @@ BEGIN
            LEFT JOIN obingresos.tagencia agen ON agen.id_agencia = con.id_agencia
            LEFT JOIN param.vproveedor prov ON prov.id_proveedor = con.id_proveedor
            LEFT join param.tgestion ges on ges.id_gestion = con.id_gestion
-        where 
+        where
         '||v_filtro||'
         and (anex.estado is null or anex.estado = '''' or anex.estado in (''devuelto'',''ejecutado'')) and anex.banco not like ''%FICTICI%''
         and ';
