@@ -13,7 +13,7 @@ BEGIN
 IF TG_OP = 'UPDATE' THEN
 
  /*ACTUALIZACION PARA QUE EL TIPO DE PAGO EN CONTRATO SE ACTUALIZE EN AGENCIA*/
-   IF NEW.formas_pago <> OLD.formas_pago then
+   IF NEW.formas_pago is not null then
  	v_pago = NEW.formas_pago ;
     select replace(v_pago, '{', '') into v_pago;
     select replace(v_pago, '}', '') into v_pago;
