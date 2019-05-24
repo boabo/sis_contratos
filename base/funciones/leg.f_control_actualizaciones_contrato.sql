@@ -6,10 +6,23 @@ DECLARE
 
 v_nombre 		varchar;
 v_nombre_base 	varchar;
+v_pago			varchar;
 
 BEGIN
 
 IF TG_OP = 'UPDATE' THEN
+
+ /*ACTUALIZACION PARA QUE EL TIPO DE PAGO EN CONTRATO SE ACTUALIZE EN AGENCIA*/
+   IF NEW.formas_pago <> OLD.formas_pago then
+ 	v_pago = NEW.formas_pago ;
+    select replace(v_pago, '{', '') into v_pago;
+    select replace(v_pago, '}', '') into v_pago;
+ 	UPDATE obingresos.tagencia
+    set tipo_pago = v_pago
+    where id_agencia = OLD.id_agencia;
+
+   end if;
+   /****************************************************************************/
 
 	select per.nombre_completo1
 	into v_nombre_base

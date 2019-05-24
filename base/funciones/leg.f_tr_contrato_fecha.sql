@@ -15,8 +15,10 @@ DECLARE
   g_new_login		varchar;
   numero_contrato	varchar;
   v_id_contrato		integer;
+  v_pago			varchar;
 BEGIN
   IF TG_OP = 'INSERT' THEN
+
   	IF NEW.id_agencia is not null then
 
            select 1 as resultado ,
@@ -54,6 +56,16 @@ BEGIN
             				 del contrato N°%, registradas por el Usuario: %, revise por favor.',nombre_agencia, to_char(control_fecha.fecha_inicio,'DD/MM/YYYY'), to_char(control_fecha.fecha_fin,'DD/MM/YYYY'), control_fecha.numero, v_nombre;
       end if;
 
+      /*ACTUALIZACION PARA QUE EL TIPO DE PAGO EN CONTRATO SE ACTUALIZE EN AGENCIA*/
+        v_pago = NEW.formas_pago ;
+        select replace(v_pago, '{', '') into v_pago;
+        select replace(v_pago, '}', '') into v_pago;
+        UPDATE obingresos.tagencia
+        set tipo_pago = v_pago
+        where id_agencia = NEW.id_agencia;
+      /****************************************************************************/
+
+
            /* select
             max(con.fecha_fin)
             into
@@ -86,9 +98,7 @@ BEGIN
    END IF;
 
    ELSIF TG_OP = 'UPDATE' THEN
-
    IF NEW.id_agencia is not null then
-
    			select 1 as resultado ,
             con.numero,
             con.fecha_inicio,
@@ -125,28 +135,6 @@ BEGIN
             				 del contrato N°%, registradas por el Usuario: %, revise por favor.',nombre_agencia, to_char(control_fecha.fecha_inicio,'DD/MM/YYYY'), to_char(control_fecha.fecha_fin,'DD/MM/YYYY'), control_fecha.numero, v_nombre;
       end if;
 
-
-
-        /*select max(con.fecha_fin)
-            into
-            fecha_dos
-            from leg.tcontrato con
-           where con.id_agencia = NEW.id_agencia and con.estado = 'concluido';
-
-
-            select 	co.id_agencia,
-                    co.fecha_fin
-                    into
-                    v_record
-                    from leg.tcontrato co
-                    where co.id_agencia = NEW.id_agencia
-                    and co.fecha_fin =fecha_dos;
-
-           if (v_record.fecha_fin = NEW.fecha_inicio)then
-           NEW.fecha_inicio = NEW.fecha_inicio + interval '1 day';
-           else
-           NEW.fecha_inicio = NEW.fecha_inicio;
-           end if;*/
 
    END IF;
 
