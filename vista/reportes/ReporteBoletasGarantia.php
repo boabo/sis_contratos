@@ -23,7 +23,9 @@ header("content-type: text/javascript; charset=UTF-8");
 	                store : new Ext.data.ArrayStore({
 	                    fields : ['tipo', 'valor'],
 	                    data : [['vencida', 'Boletas Vencidas'],
-	                            ['vigente', 'Boletas Vigentes']]
+	                            ['vigente', 'Boletas Vigentes'],
+                                ['ejecutado', 'Ejecutada'],
+                                ['devuelto', 'Devuelta']]
 	                }),
 	                anchor : '30%',
 	                gwidth : 100,
@@ -89,10 +91,11 @@ header("content-type: text/javascript; charset=UTF-8");
         iniciarEvento : function (){
         	this.Cmp.boleta_filtro.on('select', function (combo,record,index){
         		var  combo = record.data.tipo;
-        		if (combo == 'vigente') {
+        		if (combo == 'vigente' || combo == 'ejecutado' || combo == 'devuelto') {
         			this.ocultarComponente(this.Cmp.fecha_desde);
         			this.Cmp.fecha_desde.allowBlank = true;
-        		}else{
+        		}
+                else{
         			this.mostrarComponente(this.Cmp.fecha_desde);
         			this.Cmp.fecha_desde.allowBlank = false;        			
         		}       		

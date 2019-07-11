@@ -358,7 +358,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				grid:true,
 				form:true,
 				bottom_filter:true
-		},		
+		},        		
 		{
 			config:{
 				name: 'codigo',
@@ -618,7 +618,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Estado',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100			
+				gwidth: 100              		
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.estado_contrato',type:'string'},
@@ -633,13 +633,32 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Estado Boleta',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100				
+				gwidth: 100,                
+                triggerAction : 'all',
+                lazyRender : true,                
+                valueField: 'estilo',
+                typeAhead: true,
+                mode: 'local',
+                store : new Ext.data.ArrayStore({
+                    fields : ['tipo', 'valor'],
+                    data : [['ejecutado', 'Ejecutada'],
+                            ['devuelto', 'Devuelta']]
+                }),
+                valueField: 'tipo',
+				displayField: 'valor',
+                renderer:function (value,p,record){                    
+                    return value?value.toUpperCase():''
+                    },                  
 			},
-			type: 'TextField',
-			filters: {pfiltro: 'pobo.estado', type:'string'},
+			type: 'ComboBox',
+            filters:{	
+					 type: 'list',
+					  pfiltro:'pobo.estado',
+					 options: ['ejecutado','devuelto'],	
+				},			
 			id_grupo: 1,
 			grid: true,
-			form: false,
+			form: true,
 			bottom_filter: true
 		},		
 		{

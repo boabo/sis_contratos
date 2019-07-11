@@ -26,10 +26,12 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
-    v_anio1		varchar;
-    v_anio2		varchar;
+    v_anio1		        varchar;
+    v_anio2		        varchar;
     v_filtro			varchar;
     v_f_date			date;
+    v_accion		    text;
+    v_estado 			text;
 
 BEGIN
 
@@ -215,11 +217,22 @@ BEGIN
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-      if v_parametros.boleta_filtro = 'vencida' then
+        v_accion = ' 0 = 0';    
+        v_estado = ' 0 = 0 and ';
+        if v_parametros.boleta_filtro = 'ejecutado' then
 
-      		v_filtro = 'anex.fecha_hasta between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';
-         elsif v_parametros.boleta_filtro = 'vigente' then
-          v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';                  
+        	v_accion = 'anex.estado = ''ejecutado''';
+          	v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';             
+        elsif v_parametros.boleta_filtro = 'devuelto' then 
+        	v_accion = 'anex.estado = ''devuelto''';
+            v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||''''; 	        
+            
+		elsif v_parametros.boleta_filtro = 'vencida' then
+      		v_filtro = 'anex.fecha_hasta between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';            
+            v_estado = '(anex.estado is null or anex.estado = '''') and ';
+        elsif v_parametros.boleta_filtro = 'vigente' then
+            v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||''''; 
+            v_estado = '(anex.estado is null or anex.estado = '''') and ';
         end if;
 
 			v_consulta:='select
@@ -240,8 +253,8 @@ BEGIN
            LEFT join param.tgestion ges on ges.id_gestion = con.id_gestion
         where
         '||v_filtro||'
-        and (anex.estado is null or anex.estado = '''' or anex.estado in (''devuelto'',''ejecutado'')) and anex.banco not like ''%FICTICI%''
-        and con.observaciones is null
+        and '||v_estado||' anex.banco not like ''%FICTICI%''
+        and '||v_accion||'
         and ';
 
 			--Definicion de la respuesta

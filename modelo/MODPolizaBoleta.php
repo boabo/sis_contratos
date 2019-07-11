@@ -53,7 +53,7 @@ class MODPolizaBoleta extends MODbase{
 		$this->captura('id_contrato','integer');
 		$this->captura('id_gestion','integer');
 		$this->captura('gestion','integer');
-		$this->captura('id_proveedor','integer');
+        $this->captura('id_proveedor','integer');    
 		//Ejecuta la instruccion
 		$this->armarConsulta();		
 		//echo($this->consulta);exit;
@@ -158,7 +158,8 @@ class MODPolizaBoleta extends MODbase{
 		$this->setParametro('fecha_desde','fecha_desde','date');			
 		$this->setParametro('fecha_hasta','fecha_hasta','date');		
 		$this->setParametro('asegurado','asegurado','numeric');
-		$this->setParametro('nro_hoja_ruta','nro_hoja_ruta','varchar');
+        $this->setParametro('nro_hoja_ruta','nro_hoja_ruta','varchar');
+        $this->setParametro('estado', 'estado', 'varchar');
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -184,7 +185,8 @@ class MODPolizaBoleta extends MODbase{
 		$this->setParametro('fecha_desde','fecha_desde','date');			
 		$this->setParametro('fecha_hasta','fecha_hasta','date');		
 		$this->setParametro('asegurado','asegurado','numeric');
-		$this->setParametro('observaciones','observaciones','text');	
+        $this->setParametro('observaciones','observaciones','text');
+        $this->setParametro('estado', 'estado', 'varchar');	
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
