@@ -541,7 +541,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'fecha_hasta',
 				fieldLabel: 'Fecha Vencimiento',			
-				allowBlank: false,
+				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
 							format: 'd/m/Y', 
@@ -551,7 +551,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				filters:{pfiltro:'pobo.fecha_hasta',type:'date'},
 				id_grupo:1,
 				grid:true,
-				form:false
+				form:true
 		},
 		{
 			config:{

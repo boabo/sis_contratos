@@ -47,7 +47,8 @@ class ACTPolizaBoleta extends ACTbase{
 		
 		$this->objParam->getParametro('tipo_interfaz') == 'iata' && $this->objParam->addFiltro("(pobo.tipo_agencia = ''iata'' or pobo.origen=''iata'')");
 		
-		$this->objParam->getParametro('tipo_interfaz') == 'servicio' && $this->objParam->addFiltro("pobo.origen = ''servicio''");
+        $this->objParam->getParametro('tipo_interfaz') == 'servicio' && $this->objParam->addFiltro("pobo.origen = ''servicio'' or
+        (pobo.tipo_agencia is null or tipo_agencia = '''')");
 		
 		$this->objParam->getParametro('tipo_interfaz') == 'carga' && $this->objParam->addFiltro("pobo.origen = ''carga''");
 					

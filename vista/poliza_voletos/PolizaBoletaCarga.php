@@ -161,7 +161,8 @@ Phx.vista.PolizaBoletaCarga=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 200,
                 anchor: '100%',
                 tpl: '<tpl for="."><div class="x-combo-list-item"><p><b>{rotulo_comercial}</b></p><p>{desc_proveedor}</p><p>{codigo}</p><p>NIT:{nit}</p><p>Lugar:{lugar}</p><p>Email: {email}</p></div></tpl>',
-				renderer : function(value, p, record) {									
+				renderer : function(value, p, record) {	
+                    console.log('record',record.data);								
 					return String.format('{0}', record.data['proveedor']);
 				}                 
             },
@@ -182,7 +183,7 @@ Phx.vista.PolizaBoletaCarga=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Contrato',
                 typeAhead: false,
                 forceSelection: false,
-                allowBlank: false,
+                allowBlank: true,
                 disabled: false,
                 emptyText: 'Contratos...',
                 store: new Ext.data.JsonStore({
@@ -274,7 +275,7 @@ Phx.vista.PolizaBoletaCarga=Ext.extend(Phx.gridInterfaz,{
             },
             grid: false,
             form: true
-        },        		
+        },        /*		
 		{
 			config:{
 				name: 'proveedor',
@@ -290,7 +291,7 @@ Phx.vista.PolizaBoletaCarga=Ext.extend(Phx.gridInterfaz,{
 				grid:true,
 				form:false,
 				bottom_filter:true
-		},		
+        },		*/
 		{
 			config:{
 				name: 'codigo_int',
@@ -402,7 +403,10 @@ Phx.vista.PolizaBoletaCarga=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 80,
-				maxLength:300
+				maxLength:300,
+                renderer:function(value,p,record){
+                    if ((record.data.id_anexo != '') &&(value == '' || value == 'carga') ) return 'carga';
+                }                
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.tipo_agencia',type:'string'},
@@ -680,12 +684,13 @@ Phx.vista.PolizaBoletaCarga=Ext.extend(Phx.gridInterfaz,{
 		this.Cmp.origen.setValue('carga');					
 	},
     iniciarEventos:function(){
+        /*
 		this.Cmp.id_proveedor.on('select', function(c,r,n){    		
 		            this.Cmp.id_contrato.reset();
 		            this.Cmp.id_contrato.enable();            
 		            this.Cmp.id_contrato.store.baseParams={id_proveedor:c.value, vista:'otros'};
 		            this.Cmp.id_contrato.modificado=true;    		
-		    	},this);    	
+		    	},this); */   	
     	
     },	
 	loadCheckDocumentosWf:function() { 

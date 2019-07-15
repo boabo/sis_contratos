@@ -132,6 +132,7 @@ class MODPolizaBoleta extends MODbase{
         $this->captura('tipo_agencia','varchar');
         $this->captura('estado','varchar');
         $this->captura('gestion','integer');
+        $this->captura('origen','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -174,12 +175,13 @@ class MODPolizaBoleta extends MODbase{
 		$this->transaccion='LG_UPBSGAR_MOD';
 		$this->tipo_procedimiento='IME';//tipo de transaccion
 			
-		$this->setParametro('origen','origen','varchar');
+        $this->setParametro('origen','origen','varchar');        
 		$this->setParametro('id_anexo','id_anexo','integer');
 		$this->setParametro('fecha_fin_uso','fecha_fin_uso','date');
 		$this->setParametro('nro_hoja_ruta','nro_hoja_ruta','varchar');
 		$this->setParametro('id_contrato','id_contrato','integer');				
-		$this->setParametro('id_institucion','id_institucion','integer');		
+        $this->setParametro('id_institucion','id_institucion','integer');		
+        $this->setParametro('id_proveedor','id_proveedor','integer');
 		$this->setParametro('tipo','tipo','varchar');
 		$this->setParametro('nro_documento','nro_documento','varchar');	
 		$this->setParametro('fecha_desde','fecha_desde','date');			

@@ -142,6 +142,7 @@ BEGIN
             fecha_mod,
             id_contrato,
             id_institucion,
+            id_proveedor,
             tipo,
             tipo_boleta,
             banco,
@@ -151,8 +152,7 @@ BEGIN
             fecha_hasta,
             monto,
             nro_hoja_ruta,
-            origen,
-            estado,
+            origen,            
             id_proceso_wf,
             id_estado_wf           
             )VALUES(
@@ -172,8 +172,7 @@ BEGIN
             v_parametros.fecha_hasta,
             v_parametros.asegurado,
             v_parametros.nro_hoja_ruta,          
-            v_parametros.origen,
-            v_parametros.origen,
+            v_parametros.origen,            
 		    v_id_proceso_wf,
             v_id_estado_wf
             )RETURNING id_anexo into v_id_anexo;
@@ -199,7 +198,9 @@ BEGIN
 		update leg.tanexo set
             fecha_fin_uso = v_parametros.fecha_fin_uso,
             nro_hoja_ruta = v_parametros.nro_hoja_ruta,
-            nro_documento = v_parametros.nro_documento
+            nro_documento = v_parametros.nro_documento,
+            estado = v_parametros.estado,
+            fecha_hasta = v_parametros.fecha_hasta
 		 where id_anexo = v_parametros.id_anexo;
          
         update leg.tcontrato set 
@@ -214,6 +215,7 @@ BEGIN
               and  instit.id_institucion = v_parametros.id_institucion);
                       
 		update leg.tanexo set
+            id_proveedor = v_parametros.id_proveedor,
         	id_contrato = v_parametros.id_contrato,
             banco = v_banco,
             tipo = v_parametros.tipo,
@@ -305,3 +307,6 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
+
+ALTER FUNCTION leg.ft_poliza_boleta_ime (p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+  OWNER TO postgres;

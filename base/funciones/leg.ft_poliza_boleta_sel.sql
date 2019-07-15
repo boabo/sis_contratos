@@ -169,7 +169,7 @@ BEGIN
 						from leg.vpoliza_boletas_otras pobo
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
-                        inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
+                        left join param.tgestion ges on ges.id_gestion = pobo.id_gestion
 				        where ';
 
 			--Definicion de la respuesta
@@ -195,7 +195,7 @@ BEGIN
 					    from leg.vpoliza_boletas_otras pobo
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
-                        inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
+                        left join param.tgestion ges on ges.id_gestion = pobo.id_gestion
 					    where ';
 
 			--Definicion de la respuesta
@@ -245,9 +245,10 @@ BEGIN
              anex.monto AS asegurado,
              con.tipo_agencia,
              anex.estado,
-             ges.gestion
+             ges.gestion,
+             anex.origen
            FROM leg.tcontrato con
-           JOIN leg.tanexo anex ON anex.id_contrato = con.id_contrato
+           RIGHT JOIN leg.tanexo anex ON anex.id_contrato = con.id_contrato
            LEFT JOIN obingresos.tagencia agen ON agen.id_agencia = con.id_agencia
            LEFT JOIN param.vproveedor prov ON prov.id_proveedor = con.id_proveedor
            LEFT join param.tgestion ges on ges.id_gestion = con.id_gestion
@@ -266,6 +267,139 @@ BEGIN
 
 
 		end;
+
+  /*********************************
+ 	#TRANSACCION:  'LG_CONTRA_SEL'
+ 	#DESCRIPCION:	Consulta contratos
+ 	#AUTOR:		breydi.vasquez
+ 	#FECHA:		18-04-2018 20:02:21
+	***********************************/
+
+	elsif(p_transaccion='LG_CONTRA_SEL')then
+
+		begin
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select CON.id_contrato,
+                                 pw.nro_tramite,
+                                 CON.numero,
+                                 CON.tipo,
+                                 CON.objeto,
+                                 CON.estado,
+                                 prov.desc_proveedor,       
+                                 CON.monto,
+                                 mon.moneda,
+                                 CON.fecha_inicio,
+                                 CON.fecha_fin 
+                          from leg.tcontrato CON
+                               inner join segu.tusuario usu1 on usu1.id_usuario = CON.id_usuario_reg
+                               left join segu.tusuario usu2 on usu2.id_usuario = CON.id_usuario_mod
+                               inner join param.tgestion ges on ges.id_gestion = con.id_gestion
+                               left join param.vproveedor prov on prov.id_proveedor = con.id_proveedor
+                               inner join param.tmoneda mon on mon.id_moneda = con.id_moneda
+                               left join obingresos.tagencia age on age.id_agencia = con.id_agencia
+                               left join param.tlugar lug on lug.id_lugar = con.id_lugar
+                               inner join leg.vcontrato view on view . id_contrato = con.id_contrato
+                               inner join wf.testado_wf ew on ew.id_estado_wf = CON.id_estado_wf
+                               inner join wf.tproceso_wf pw on pw.id_proceso_wf = CON.id_proceso_wf
+                               left join orga.vfuncionario fun on fun.id_funcionario = ew.id_funcionario
+                          where CON.estado_reg != ''inactivo'' and
+                                CON.estado != ''anulado'' and
+                                CON.estado = ''finalizado'' 
+                                and 
+	  								';
+
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+            v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;
+    /*********************************
+      #TRANSACCION:  'LG_CONTRA_CONT'
+      #DESCRIPCION:	Conteo de registros
+      #AUTOR:		breydi.vasquez
+      #FECHA:		18-04-2018 20:02:21
+      ***********************************/
+
+	elsif(p_transaccion='LG_CONTRA_CONT')then
+
+		begin
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='   select count(con.id_contrato)
+            				from leg.tcontrato CON
+                               inner join segu.tusuario usu1 on usu1.id_usuario = CON.id_usuario_reg
+                               left join segu.tusuario usu2 on usu2.id_usuario = CON.id_usuario_mod
+                               inner join param.tgestion ges on ges.id_gestion = con.id_gestion
+                               left join param.vproveedor prov on prov.id_proveedor = con.id_proveedor
+                               inner join param.tmoneda mon on mon.id_moneda = con.id_moneda
+                               left join obingresos.tagencia age on age.id_agencia = con.id_agencia
+                               left join param.tlugar lug on lug.id_lugar = con.id_lugar
+                               inner join leg.vcontrato view on view . id_contrato = con.id_contrato
+                               inner join wf.testado_wf ew on ew.id_estado_wf = CON.id_estado_wf
+                               inner join wf.tproceso_wf pw on pw.id_proceso_wf = CON.id_proceso_wf
+                               left join orga.vfuncionario fun on fun.id_funcionario = ew.id_funcionario
+                          where CON.estado_reg != ''inactivo'' and
+                                CON.estado != ''anulado'' and
+                                CON.estado = ''finalizado'' 
+                                and ';
+
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;
+
+    /*********************************
+      #TRANSACCION:  'LG_LISTBAN_SEL'
+      #DESCRIPCION:	Consulta datos bancos
+      #AUTOR:		breydi.vasquez
+      #FECHA:		18-04-2018 20:02:21
+      ***********************************/
+
+	elsif(p_transaccion='LG_LISTBAN_SEL')then
+
+		begin
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select  instit.id_institucion,
+                                 instit.nombre
+                          from param.tinstitucion instit
+                          where instit.estado_reg = ''activo''
+                          and instit.es_banco = ''si''
+                          and ';
+
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;                        
+    /*********************************
+      #TRANSACCION:  'LG_LISTBAN_CONT'
+      #DESCRIPCION:	Consulta datos bancos
+      #AUTOR:		breydi.vasquez
+      #FECHA:		18-04-2018 20:02:21
+      ***********************************/
+
+	elsif(p_transaccion='LG_LISTBAN_CONT')then
+
+		begin
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:=' select count(instit.id_institucion)
+            		      from param.tinstitucion instit
+                          where instit.estado_reg = ''activo''
+                          and ';
+
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end; 
 
 	else
 
@@ -288,3 +422,6 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
+
+ALTER FUNCTION leg.ft_poliza_boleta_sel (p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+  OWNER TO postgres;

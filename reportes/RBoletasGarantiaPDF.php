@@ -134,7 +134,7 @@ EOF;
         $this->Ln();
         $sum_serv = 0;
         foreach($this->datos as $record){
-            if ($record['tipo_agencia'] != 'noiata' && $record['tipo_agencia']!= 'iata') {
+            if ($record['tipo_agencia'] == '' || $record['tipo_agencia'] == null || $record['origen'] == 'servicio') {
                 $this->SetFont('', '', 6);
                 $this->SetFillColor(224, 235, 255);
                 $this->SetTextColor(0);
@@ -158,13 +158,50 @@ EOF;
                 $contador++;
             }
         }
-        $total_general = $sum_no_iata + $sum_iata +$sum_serv;
         $this->SetFont('', 'B', 7);
         $this->SetDrawColor(0, 0, 0, 50);
         $this->SetFillColor(0, 0, 0, 100);
         $this->cell(58,6,'','TBL',0,'c');
         $this->Cell(176,6,'TOTAL SERVICIOS','TBL',0,'C');
         $this->Cell(22,6,number_format($sum_serv,2,',','.'),'TBL',0,'R');
+        $this->Cell(20,6,'','TBRL',1,'C');
+
+        $this->headAgen('GARGA','HASTA',$fecha_desde,$fecha_hasta,$boleta);
+        $this->Ln();
+        $sum_carga = 0;
+        foreach($this->datos as $record){
+            if ($record['origen'] == 'carga') {
+                $this->SetFont('', '', 6);
+                $this->SetFillColor(224, 235, 255);
+                $this->SetTextColor(0);
+
+                $this->tableborders = array('LB', 'BLR', 'BLR', 'BLR', 'BLR', 'BLR', 'BLR', 'BLR', 'RB');
+                $this->tablenumbers = array(0, 0, 0, 0, 0, 0, 0, 2, 0);
+                $tipo = ($record['tipo'] == 'boleta') ? 'BG' : 'PLZ';
+                $RowArray = array(
+                    's0' => $contador,
+                    's1' => $record['banco'],
+                    's2' => $record['nro_documento'],
+                    's3' => $tipo,
+                    's4' => $record['agencia'],
+                    's5' => $record['fecha_desde'],
+                    's6' => $record['fecha_hasta'],
+                    's7' => $record['asegurado'],
+                    's8' => ''
+                );
+                $this->MultiRow($RowArray, true, 1);
+                $sum_carga = $sum_carga + $record['asegurado'];
+                $contador++;
+            }
+        }
+
+        $total_general = $sum_no_iata + $sum_iata + $sum_serv + $sum_carga;
+        $this->SetFont('', 'B', 7);
+        $this->SetDrawColor(0, 0, 0, 50);
+        $this->SetFillColor(0, 0, 0, 100);
+        $this->cell(58,6,'','TBL',0,'c');
+        $this->Cell(176,6,'TOTAL CARGA','TBL',0,'C');
+        $this->Cell(22,6,number_format($sum_carga,2,',','.'),'TBL',0,'R');
         $this->Cell(20,6,'','TBRL',1,'C');
         $this->cell(58,6,'','TBL',0,'c');
         $this->Cell(176,6,'TOTAL AGENCIAS DE VIAJE NO IATA','TBL',0,'C');
@@ -175,6 +212,10 @@ EOF;
         $this->Cell(22,6, number_format($sum_iata,2,',','.'),'TBL',0,'R');
         $this->Cell(20,6,'','TBRL',1,'C');
         $this->cell(58,6,'','TBL',0,'c');
+        $this->Cell(176,6,'TOTAL SERVICIOS','TBL',0,'C');
+        $this->Cell(22,6, number_format($sum_serv,2,',','.'),'TBL',0,'R');
+        $this->Cell(20,6,'','TBRL',1,'C');
+        $this->cell(58,6,'','TBL',0,'c');        
         $this->Cell(176,6,'TOTAL SERVICIOS USD','TBL',0,'C');
         $this->Cell(22,6,'0,00','TRBL',0,'R');
         $this->Cell(20,6,'','TBRL',1,'C');

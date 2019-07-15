@@ -187,7 +187,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Contrato',
                 typeAhead: false,
                 forceSelection: true,
-                allowBlank: false,
+                allowBlank: true,
                 disabled: false,
                 emptyText: 'Contratos...',
                 store: new Ext.data.JsonStore({
@@ -389,7 +389,10 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 				anchor: '80%',
 				gwidth: 80,
-				maxLength:300
+				maxLength:300,
+                renderer:function(value,p,record){
+                    if ((record.data.id_anexo != '') &&(value == '' || value == 'iata') ) return 'iata';
+                }
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.tipo_agencia',type:'string'},
@@ -676,12 +679,13 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 	
     iniciarEventos:function(){
     	this.ocultarComponente(this.Cmp.fecha_fin_uso);
+        /*
 		this.Cmp.id_proveedor.on('select', function(c,r,n){    		
 		            this.Cmp.id_contrato.reset();
 		            this.Cmp.id_contrato.enable();            
 		            this.Cmp.id_contrato.store.baseParams={id_proveedor:c.value, vista:'otros'};
 		            this.Cmp.id_contrato.modificado=true;    		
-		    	},this);   	
+		    	},this);   	*/
     },
 	loadCheckDocumentosWf:function() {		
         var rec=this.sm.getSelected();

@@ -178,10 +178,9 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
                 name: 'id_proveedor',
                 hiddenName: 'id_proveedor',
                 fieldLabel: 'Proveedor',
-                // typeAhead: false,
-                forceSelection: true,
-                allowBlank: false,
-                // disabled: true,
+                //typeAhead: false,
+                forceSelection: false,
+                allowBlank: true,                
                 emptyText: 'Proveedor...',
                 store: new Ext.data.JsonStore({
                     url:'../../sis_parametros/control/Proveedor/listarProveedorCombos',
@@ -199,8 +198,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 
                 }),
                 valueField: 'id_proveedor',
-                displayField: 'desc_proveedor',
-                // gdisplayField: 'desc_contrato',
+                displayField: 'desc_proveedor',                
                 triggerAction: 'all',
                 lazyRender: true,
                 resizable: true,
@@ -219,7 +217,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
             type: 'ComboBox',
             id_grupo: 0,
             filters: {
-                pfiltro: 'pobo.proveedor',
+                pfiltro: 'provee.proveedor',
                 type: 'string'
             },
             bottom_filter: true,
@@ -233,7 +231,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Contrato',
                 typeAhead: false,
                 forceSelection: false,
-                allowBlank: false,
+                allowBlank: true,
                 disabled: false,
                 emptyText: 'Contratos...',
                 store: new Ext.data.JsonStore({
@@ -325,7 +323,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
             },
             grid: false,
             form: true
-        },        		
+        }, /*       		
 		{
 			config:{
 				name: 'proveedor',
@@ -341,7 +339,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 				grid:true,
 				form:false,
 				bottom_filter:true
-		},		
+		},	*/	
 		{
 			config:{
 				name: 'codigo_int',
@@ -453,7 +451,10 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 80,
-				maxLength:300
+				maxLength:300,
+                renderer:function(value,p,record){
+                    if ((record.data.id_anexo != '') &&(value == '' || value == 'servicio') ) return 'servicio';
+                }                
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.tipo_agencia',type:'string'},
@@ -714,7 +715,9 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
 		{name:'nro_hoja_ruta',type:'numeric'},
 		{name:'id_contrato',type:'numeric'},
 		{name:'id_gestion',type:'numeric'},
-		{name:'gestion',type:'numeric'}		
+		{name:'gestion',type:'numeric'},
+        {name:'id_proveedor',type:'numeric'},
+        {name:'id_institucion',type:'numeric'}	
 		
 	],
 	sortInfo:{

@@ -994,3 +994,173 @@ ALTER TABLE leg.vpoliza_boletas_otras
 
        
 /***********************************F-DEP-BVP-LEG-1-26/04/2019*****************************************/
+
+/***********************************I-DEP-BVP-LEG-1-26/04/2019*****************************************/
+
+
+ -- object recreation
+DROP VIEW leg.vpoliza_boletas;
+
+CREATE VIEW leg.vpoliza_boletas(
+    id_anexo,
+    estado_reg,
+    banco,
+    nro_documento,
+    tipo,
+    codigo,
+    codigo_int,
+    codigo_noiata,
+    agencia,
+    numero,
+    tipo_agencia,
+    fecha_fin_uso,
+    fecha_desde,
+    fecha_notif,
+    fecha_corte,
+    fecha_hasta,
+    moneda,
+    asegurado,
+    estado,
+    usr_reg,
+    usr_mod,
+    id_usuario_reg,
+    id_usuario_mod,
+    observaciones,
+    id_agencia,
+    estado_contrato,
+    id_proceso_wf,
+    id_estado_wf,
+    nro_hoja_ruta,
+    id_contrato,
+    id_gestion,
+    id_proveedor,
+    id_institucion,
+    fecha_reg,
+    origen)
+AS
+  SELECT anex.id_anexo,
+         anex.estado_reg,
+         anex.banco,
+         anex.nro_documento,
+         anex.tipo,
+         lu.codigo,
+         agen.codigo_int,
+         agen.codigo AS codigo_noiata,
+         COALESCE(agen.nombre, prov.desc_proveedor) AS agencia,
+         con.numero,
+         agen.tipo_agencia,
+         anex.fecha_fin_uso,
+         anex.fecha_desde,
+         anex.fecha_hasta - 30 AS fecha_notif,
+         anex.fecha_hasta - 21 AS fecha_corte,
+         anex.fecha_hasta,
+         anex.moneda,
+         anex.monto AS asegurado,
+         anex.estado,
+         usu1.cuenta AS usr_reg,
+         usu2.cuenta AS usr_mod,
+         anex.id_usuario_reg,
+         anex.id_usuario_mod,
+         con.observaciones,
+         agen.id_agencia,
+         con.estado AS estado_contrato,
+         con.id_proceso_wf,
+         con.id_estado_wf,
+         anex.nro_hoja_ruta,
+         con.id_contrato,
+         con.id_gestion,
+         COALESCE(con.id_proveedor, anex.id_proveedor) AS id_proveedor,
+         anex.id_institucion,
+         anex.fecha_reg,
+         anex.origen
+  FROM leg.tcontrato con
+       JOIN leg.tanexo anex ON anex.id_contrato = con.id_contrato
+       JOIN segu.tusuario usu1 ON usu1.id_usuario = anex.id_usuario_reg
+       LEFT JOIN param.vproveedor prov ON prov.id_proveedor = con.id_proveedor
+       LEFT JOIN segu.tusuario usu2 ON usu2.id_usuario = anex.id_usuario_mod
+       LEFT JOIN obingresos.tagencia agen ON agen.id_agencia = con.id_agencia
+       LEFT JOIN param.tlugar lu ON lu.id_lugar = agen.id_lugar;
+
+ALTER TABLE leg.vpoliza_boletas
+  OWNER TO postgres;
+ -- object recreation
+DROP VIEW leg.vpoliza_boletas_otras;
+
+CREATE VIEW leg.vpoliza_boletas_otras(
+    id_anexo,
+    banco,
+    nro_documento,
+    tipo,
+    proveedor,
+    numero,
+    fecha_fin_uso,
+    fecha_desde,
+    fecha_notif,
+    fecha_corte,
+    fecha_hasta,
+    moneda,
+    asegurado,
+    estado,
+    usr_reg,
+    usr_mod,
+    id_usuario_reg,
+    id_usuario_mod,
+    tipo_agencia,
+    observaciones,
+    estado_contrato,
+    id_proceso_wf,
+    id_estado_wf,
+    id_contrato,
+    id_gestion,
+    id_proveedor,
+    id_institucion,
+    institucion,
+    nro_hoja_ruta,
+    origen)
+AS
+  SELECT anex.id_anexo,
+         anex.banco,
+         anex.nro_documento,
+         anex.tipo,
+         prov.desc_proveedor AS proveedor,
+         con.numero,
+         anex.fecha_fin_uso,
+         anex.fecha_desde,
+         anex.fecha_hasta - 30 AS fecha_notif,
+         anex.fecha_hasta - 21 AS fecha_corte,
+         anex.fecha_hasta,
+         anex.moneda,
+         anex.monto AS asegurado,
+         anex.estado,
+         usu1.cuenta AS usr_reg,
+         usu2.cuenta AS usr_mod,
+         anex.id_usuario_reg,
+         anex.id_usuario_mod,
+         con.tipo_agencia,
+         con.observaciones,
+         con.estado AS estado_contrato,
+         con.id_proceso_wf,
+         con.id_estado_wf,
+         con.id_contrato,
+         con.id_gestion,
+         COALESCE(anex.id_proveedor, con.id_proveedor) AS id_proveedor,
+         COALESCE(con.id_institucion, anex.id_institucion) AS id_institucion,
+         inst.nombre AS institucion,
+         anex.nro_hoja_ruta,
+         anex.origen
+  FROM leg.tcontrato con
+       RIGHT JOIN leg.tanexo anex ON anex.id_contrato = con.id_contrato
+       JOIN segu.tusuario usu1 ON usu1.id_usuario = anex.id_usuario_reg
+       LEFT JOIN param.vproveedor prov ON prov.id_proveedor = COALESCE(
+         con.id_proveedor, anex.id_proveedor)
+       LEFT JOIN segu.tusuario usu2 ON usu2.id_usuario = anex.id_usuario_mod
+       LEFT JOIN param.tinstitucion inst ON inst.id_institucion =
+         con.id_institucion
+  WHERE con.tipo_agencia::text <> 'noiata'::text OR
+        con.tipo_agencia IS NULL;
+
+ALTER TABLE leg.vpoliza_boletas_otras
+  OWNER TO postgres;
+
+       
+/***********************************F-DEP-BVP-LEG-1-15/07/2019*****************************************/

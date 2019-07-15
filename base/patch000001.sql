@@ -189,5 +189,15 @@ ALTER TABLE leg.tanexo
   ADD COLUMN origen				VARCHAR(250);    
 /***********************************F-SCP-BVP-LEG-1-26/04/2019*****************************************/
 
+/***********************************I-SCP-BVP-LEG-1-15/07/2019*****************************************/
+
+ALTER TABLE leg.tanexo
+  ADD COLUMN id_proveedor INTEGER;
+
+
+ALTER TABLE leg.tanexo
+  ALTER COLUMN id_contrato DROP NOT NULL;
+/***********************************F-SCP-BVP-LEG-1-15/07/2019*****************************************/
+
 
 
