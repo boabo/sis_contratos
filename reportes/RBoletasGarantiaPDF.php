@@ -134,7 +134,7 @@ EOF;
         $this->Ln();
         $sum_serv = 0;
         foreach($this->datos as $record){
-            if ($record['tipo_agencia'] == '' || $record['tipo_agencia'] == null || $record['origen'] == 'servicio') {
+            if ($record['origen'] == 'servicio') {
                 $this->SetFont('', '', 6);
                 $this->SetFillColor(224, 235, 255);
                 $this->SetTextColor(0);
@@ -170,7 +170,7 @@ EOF;
         $this->Ln();
         $sum_carga = 0;
         foreach($this->datos as $record){
-            if ($record['origen'] == 'carga') {
+            if (($record['tipo_agencia'] == '' || $record['tipo_agencia'] == null )&&( $record['origen'] == 'carga' || $record['origen'] == null)) {
                 $this->SetFont('', '', 6);
                 $this->SetFillColor(224, 235, 255);
                 $this->SetTextColor(0);
