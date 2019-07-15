@@ -250,7 +250,7 @@ BEGIN
            FROM leg.tcontrato con
            RIGHT JOIN leg.tanexo anex ON anex.id_contrato = con.id_contrato
            LEFT JOIN obingresos.tagencia agen ON agen.id_agencia = con.id_agencia
-           LEFT JOIN param.vproveedor prov ON prov.id_proveedor = con.id_proveedor
+           LEFT JOIN param.vproveedor prov ON prov.id_proveedor = coalesce(con.id_proveedor,anex.id_proveedor)
            LEFT join param.tgestion ges on ges.id_gestion = con.id_gestion
         where
         '||v_filtro||'

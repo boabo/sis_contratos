@@ -163,6 +163,7 @@ BEGIN
             null,
             v_parametros.id_contrato,
             v_parametros.id_institucion,
+            v_parametros.id_proveedor,
             'boleta_garantia',
             v_parametros.tipo,
 			v_banco,
