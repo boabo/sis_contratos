@@ -16,9 +16,9 @@ class ACTPolizaBoleta extends ACTbase{
 		$this->objParam->getParametro('tipo_interfaz')=='noIata' && $this->objParam->addFiltro("pobo.tipo_agencia=''noiata''");		
 		
         if($this->objParam->getParametro('pes_estado')=='vigente'){        	
-             $this->objParam->addFiltro("COALESCE(fecha_fin_uso, pobo.fecha_hasta) >= now()");
+             $this->objParam->addFiltro("COALESCE(fecha_fin_uso, pobo.fecha_hasta) >= now() and (pobo.estado <> ''ficticia'' or pobo.estado is null)");
         }else{
-        	$this->objParam->addFiltro("COALESCE(fecha_fin_uso, pobo.fecha_hasta) < now()");
+        	$this->objParam->addFiltro("COALESCE(fecha_fin_uso, pobo.fecha_hasta) < now() and (pobo.estado <> ''ficticia'' or pobo.estado is null)");
         }
 		 if($this->objParam->getParametro('filtro_campo')!=''){
             $this->objParam->addFiltro($this->objParam->getParametro('filtro_campo')." = ".$this->objParam->getParametro('filtro_valor'));  
@@ -48,10 +48,11 @@ class ACTPolizaBoleta extends ACTbase{
 		$this->objParam->getParametro('tipo_interfaz') == 'iata' && $this->objParam->addFiltro("(pobo.tipo_agencia = ''iata'' or pobo.origen=''iata'')");
 		
         $this->objParam->getParametro('tipo_interfaz') == 'carga' && $this->objParam->addFiltro("(pobo.origen = ''carga'' or pobo.origen is null) and
-        (pobo.tipo_agencia is null or tipo_agencia = '''')");
+        (pobo.tipo_agencia is null or tipo_agencia = '''' or pobo.tipo_agencia = ''corporativa''
+        and pobo.banco not like ''%FICTICI%'')");
 		
 		$this->objParam->getParametro('tipo_interfaz') == 'servicio' && $this->objParam->addFiltro("pobo.origen = ''servicio''");
-					
+		
 		if($this->objParam->getParametro('pes_estado')=='vigente'){
         	
              $this->objParam->addFiltro("COALESCE(fecha_fin_uso, pobo.fecha_hasta) >= now()");
