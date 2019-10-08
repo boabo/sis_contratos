@@ -487,7 +487,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'fecha_hasta',
 				fieldLabel: 'Fecha Vencimiento',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '80%',
 				gwidth: 100,
 							format: 'd/m/Y', 
@@ -578,7 +578,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				form:false,
 				bottom_filter:true
 		},
-		{
+/* 		{
 			config: {
 				name: 'estado',
 				fieldLabel: 'Estado Boleta',
@@ -590,9 +590,43 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 			filters: {pfiltro: 'pobo.estado', type:'string'},
 			id_grupo: 1,
 			grid: true,
-			form: false,
+			form: true,
 			bottom_filter: true
-		},		
+		}, */
+		{
+			config: {
+				name: 'estado',
+				fieldLabel: 'Estado Boleta',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,                
+                triggerAction : 'all',
+                lazyRender : true,                
+                valueField: 'estilo',
+                typeAhead: true,
+                mode: 'local',
+                store : new Ext.data.ArrayStore({
+                    fields : ['tipo', 'valor'], 
+                    data : [['ejecutado', 'Ejecutada'],
+                            ['devuelto', 'Devuelta']]
+                }),
+                valueField: 'tipo',
+				displayField: 'valor',
+                renderer:function (value,p,record){                    
+                    return value?value.toUpperCase():''
+                    },                  
+			},
+			type: 'ComboBox',
+            filters:{	
+					 type: 'list',
+					  pfiltro:'pobo.estado',
+					 options: ['ejecutado','devuelto'],	
+				},			
+			id_grupo: 1,
+			grid: true,
+			form: true,
+			bottom_filter: true
+		},        		
 		{
 			config:{
 				name: 'observaciones',
@@ -675,6 +709,15 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 		Phx.vista.PolizaBoletaIata.superclass.onButtonEdit.call(this);
 		this.Cmp.origen.setValue('iata');			
 		var data = this.getSelectedData();
+        this.Cmp.fecha_fin_uso.allowBlank=true;
+        this.Cmp.fecha_fin_uso.modificado=true;
+        if (this.Cmp.fecha_fin_uso.errorEl != undefined){
+            this.Cmp.fecha_fin_uso.errorEl.dom.innerHTML='';
+            this.Cmp.fecha_fin_uso.errorEl.dom.innerText='';
+        }
+    	this.Cmp.estado.on('select', function(c,r,n){
+            this.Cmp.fecha_fin_uso.allowBlank=false;            
+    	},this);                        
 	},
 	
     iniciarEventos:function(){

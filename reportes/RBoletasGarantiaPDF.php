@@ -103,7 +103,7 @@ EOF;
         $this->Ln();
         $sum_iata = 0;
         foreach($this->datos as $record){
-            if ($record['tipo_agencia'] == 'iata') {
+            if ($record['tipo_agencia'] == 'iata' || $record['origen']=='iata') {
                 $this->SetFont('', '', 6);
                 $this->SetFillColor(224, 235, 255);
                 $this->SetTextColor(0);
