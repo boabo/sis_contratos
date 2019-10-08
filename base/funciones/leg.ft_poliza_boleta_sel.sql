@@ -229,10 +229,10 @@ BEGIN
             
 		elsif v_parametros.boleta_filtro = 'vencida' then
       		v_filtro = 'anex.fecha_hasta between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';            
-            v_estado = '(anex.estado is null or anex.estado = '''') and ';
+            v_estado = '(anex.estado is null or anex.estado = '''' or  anex.estado in (''ejecutado'', ''devuelto'')  ) and ';
         elsif v_parametros.boleta_filtro = 'vigente' then
             v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||''''; 
-            v_estado = '(anex.estado is null or anex.estado = '''') and ';
+            v_estado = '(anex.estado is null or anex.estado = '''' or  anex.estado in (''ejecutado'', ''devuelto'') ) and ';
         end if;
 
 			v_consulta:='select
