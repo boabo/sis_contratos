@@ -197,6 +197,7 @@ EOF;
                 $contador++;
             }
         }
+        $total_general = $sum_no_iata + $sum_iata + $sum_serv + $sum_carga;
         $this->SetFont('', 'B', 7);
         $this->SetDrawColor(0, 0, 0, 50);
         $this->SetFillColor(0, 0, 0, 100);
