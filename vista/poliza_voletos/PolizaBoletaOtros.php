@@ -217,7 +217,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
             type: 'ComboBox',
             id_grupo: 0,
             filters: {
-                pfiltro: 'provee.proveedor',
+                pfiltro: 'pobo.proveedor',
                 type: 'string'
             },
             bottom_filter: true,

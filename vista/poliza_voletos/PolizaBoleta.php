@@ -72,7 +72,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
         tooltip: '<b>Cambiar al siguientes estado</b>'});  		      
                 	
 		this.init();
-		this.iniciarEventos();
+		//this.iniciarEventos();
 		
 		this.store.baseParams={tipo_interfaz:this.nombreVista};
 		if(config.filtro_directo){
@@ -283,11 +283,12 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
             type : 'ComboBox',
             id_grupo : 0,
             filters : {
-                pfiltro : 'age.nombre',
+                pfiltro : 'pobo.agencia',
                 type : 'string'
             },
             grid : true,
-            form : false
+            form : false,
+            bottom_filter: true
         },
 		{
 			config:{
@@ -487,23 +488,6 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 				id_grupo:1,
 				grid:true,
 				form:false
-		},
-		{
-			config:{
-				name: 'fecha_fin_uso',
-				fieldLabel: 'Fecha Fin Uso',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-							format: 'd/m/Y', 
-							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
-							
-			},
-				type:'DateField',
-				filters:{pfiltro:'pobo.fecha_fin_uso',type:'date'},
-				id_grupo:1,
-				grid:true,
-				form:true
 		},		
 		{
 			config:{
@@ -640,7 +624,7 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
                 typeAhead: true,
                 mode: 'local',
                 store : new Ext.data.ArrayStore({
-                    fields : ['tipo', 'valor'],
+                    fields : ['tipo', 'valor'], 
                     data : [['ejecutado', 'Ejecutada'],
                             ['devuelto', 'Devuelta']]
                 }),
@@ -660,7 +644,24 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 			grid: true,
 			form: true,
 			bottom_filter: true
-		},		
+		},
+		{
+			config:{
+				name: 'fecha_fin_uso',
+				fieldLabel: 'Fecha Fin Uso',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+							format: 'd/m/Y', 
+							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
+							
+			},
+				type:'DateField',
+				filters:{pfiltro:'pobo.fecha_fin_uso',type:'date'},
+				id_grupo:1,
+				grid:true,
+				form:true
+		},        		
 		{
 			config:{
 				name: 'observaciones',
@@ -821,29 +822,28 @@ Phx.vista.PolizaBoleta=Ext.extend(Phx.gridInterfaz,{
 	btest:false,
 	
     onButtonNew: function() {   	    
-    	this.window.setSize(450,420);
+    	this.window.setSize(450,350);
     	this.ocultarComponente(this.Cmp.fecha_fin_uso);
     	Phx.vista.PolizaBoleta.superclass.onButtonNew.call(this);
     },  	
 	onButtonEdit:function(){
-		this.window.setSize(450,250);
-		//this.mostrarComponente(this.Cmp.fecha_fin_uso);
-		Phx.vista.PolizaBoleta.superclass.onButtonEdit.call(this);
-		this.ocultarComponente(this.Cmp.id_contrato);
+		this.window.setSize(450,350);		        
+		Phx.vista.PolizaBoleta.superclass.onButtonEdit.call(this);        
+		this.ocultarComponente(this.Cmp.id_contrato);        
 		this.Cmp.origen.setValue('noIata');			
-		var data = this.getSelectedData();
+		var data = this.getSelectedData();                
+        this.Cmp.fecha_fin_uso.allowBlank=true;
+        this.Cmp.fecha_fin_uso.modificado=true;
+        if (this.Cmp.fecha_fin_uso.errorEl != undefined){
+            this.Cmp.fecha_fin_uso.errorEl.dom.innerHTML='';
+            this.Cmp.fecha_fin_uso.errorEl.dom.innerText='';
+        }
+    	this.Cmp.estado.on('select', function(c,r,n){
+            this.Cmp.fecha_fin_uso.allowBlank=false;            
+    	},this);                
 	},
 	
     iniciarEventos:function(){
-    	
-    	//this.Cmp.ocultarComponente(this.Cmp.id_contrato);
-    	//this.Cmp.id_contrato.store.baseParams={vista:'noIata'};    	
-    	/*this.Cmp.id_proveedor.on('select', function(c,r,n){    		
-            this.Cmp.id_contrato.reset();
-            this.Cmp.id_contrato.enable();            
-            this.Cmp.id_contrato.store.baseParams={id_proveedor:c.value, vista:'noIata'};
-            this.Cmp.id_contrato.modificado=true;    		
-    	},this);	*/
     },	
 	loadCheckDocumentosWf:function() { 
         var rec=this.sm.getSelected();
