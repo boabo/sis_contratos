@@ -75,7 +75,6 @@ BEGIN
                         con.id_cotizacion,
                         con.sujeto_contrato,
                         con.moneda,
-                        con.nro_tramite,
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod	
 						from leg.vcontrato con
@@ -83,6 +82,7 @@ BEGIN
 						left join segu.tusuario usu2 on usu2.id_usuario = con.id_usuario_mod
 				        where  ';
 			
+			-- se quito el con.nro_tramite, 16/10/2019
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
