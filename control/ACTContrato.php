@@ -17,6 +17,9 @@ class ACTContrato extends ACTbase{
             $this->objParam->addFiltro("con.id_proveedor = ".$this->objParam->getParametro('id_proveedor'));
             $this->objParam->addFiltro("con.estado = ''finalizado''");
         }
+		if($this->objParam->getParametro('pruebass')!=''){
+            $this->objParam->addFiltro("con.id_proveedor = ".$this->objParam->getParametro('pruebass'));
+        }
         
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam,$this);
@@ -26,6 +29,15 @@ class ACTContrato extends ACTbase{
 			
 			$this->res=$this->objFunc->listarContratos($this->objParam);
 		}
+		if($this->objParam->getParametro('_adicionar')!=''){
+
+            $respuesta = $this->res->getDatos();
+            array_unshift ( $respuesta, array(  'id_contrato'=>'0',
+                'numero'=>'Todos', 'tipo'=>'Todos'
+            ));
+            //		var_dump($respuesta);
+            $this->res->setDatos($respuesta);
+        }
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}			
 }
