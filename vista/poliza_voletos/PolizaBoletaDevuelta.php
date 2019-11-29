@@ -249,7 +249,7 @@ Phx.vista.PolizaBoletaDevuelta=Ext.extend(Phx.gridInterfaz,{
                     id: 'id_institucion',
                     root: 'datos',
                     sortInfo: {
-                        field: 'id_institucion',
+                        field: 'nombre',
                         direction: 'ASC'
                     },
                     totalProperty: 'total',
