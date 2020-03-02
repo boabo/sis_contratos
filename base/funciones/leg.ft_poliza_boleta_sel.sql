@@ -231,7 +231,7 @@ BEGIN
       		v_filtro = 'anex.fecha_hasta between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';            
             v_estado = '(anex.estado is null or anex.estado = '''' or  anex.estado in (''ejecutado'', ''devuelto'')  ) and ';
         elsif v_parametros.boleta_filtro = 'vigente' then
-            v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||''''; 
+            v_filtro = ''''||v_parametros.fecha_hasta||''' between anex.fecha_desde  and COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)'; 
             v_estado = '(anex.estado is null or anex.estado = '''' or  anex.estado in (''ejecutado'', ''devuelto'') ) and ';
         end if;
 

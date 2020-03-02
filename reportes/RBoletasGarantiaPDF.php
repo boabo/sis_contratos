@@ -12,11 +12,11 @@ class RBoletasGarantiaPDF extends ReportePDF
         $html = <<<EOF
 		<style>
 		table {		
-   			border: 5px black dashed;
+   			/*border: 5px black dashed;*/
 		}		
 		</style>
 		<body>
-		<table border="1" cellpadding="2" cellspacing = "0">
+		<table border="0" cellpadding="2" cellspacing = "0">
         	<tr>
             	<th style="width: 20%;vertical-align:middle;" align="center" rowspan="2"><img src="$url_imagen" ></th>
         	</tr>
