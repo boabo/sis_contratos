@@ -368,7 +368,6 @@ BEGIN
                                  instit.nombre
                           from param.tinstitucion instit
                           where instit.estado_reg = ''activo''
-                          and instit.es_banco = ''si''
                           and ';
 
 			--Definicion de la respuesta
@@ -392,7 +391,6 @@ BEGIN
 			v_consulta:=' select count(instit.id_institucion)
             		      from param.tinstitucion instit
                           where instit.estado_reg = ''activo''
-                           and instit.es_banco = ''si''
                            and ';
 
 			--Definicion de la respuesta

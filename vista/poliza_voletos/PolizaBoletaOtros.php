@@ -247,7 +247,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
                     // turn on remote sorting
                     remoteSort: true,
                     baseParams:{
-                        par_filtro: 'nro_tramite#numero#tipo#con.monto#objeto#monto'
+                        par_filtro: 'pw.nro_tramite#con.numero#con.tipo#con.monto'
                     }
                 }),
                 valueField: 'id_contrato',
