@@ -12,11 +12,11 @@ header("content-type: text/javascript; charset=UTF-8");
 <script>
 Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 	nombreVista : 'iata',
-	
+
 	gruposBarraTareas:[{name:'vigente',title:'<H1 align="center"><i class="fa fa-thumbs-o-up"></i>Vigentes</h1>',grupo:0,height:0},
                        {name:'caducado',title:'<H1 align="center"><i class="fa fa-thumbs-o-down"></i>Caducadas</h1>',grupo:1,height:0},
                      ],
-	
+
 	actualizarSegunTab: function(name){
     	if(this.finCons){
     		 this.store.baseParams.pes_estado = name;
@@ -34,14 +34,14 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
   preparaMenu:function(n){
       var data = this.getSelectedData();
       var tb =this.tbar;
-      Phx.vista.PolizaBoletaIata.superclass.preparaMenu.call(this,n);  
+      Phx.vista.PolizaBoletaIata.superclass.preparaMenu.call(this,n);
       //habilitar reporte de colicitud de comrpa y preorden de compra
-      //this.menuAdq.enable();    
+      //this.menuAdq.enable();
            //this.getBoton('edit').disable();
            //this.getBoton('new').disable();
            //this.getBoton('del').disable();
           //this.getBoton('save').disable();
-        return tb 
+        return tb
     },
 
 
@@ -56,24 +56,24 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
         disabled: false,
         handler: this.loadCheckDocumentosWf,
         tooltip: '<b>Documentos del Proceso</b><br/>Subir los documetos requeridos en el proceso seleccionado.'});
-         	    
+
 	    this.addButton('diagrama_gantt',{
 	   	text:'Diagrama Gantt',
 	   	iconCls: 'bgantt',
 	   	disabled:false,
 	   	handler:this.diagramGantt,
-	   	tooltip: '<b>Diagrama Gantt de proceso macro</b>'});	   		   	  	   
-	    
+	   	tooltip: '<b>Diagrama Gantt de proceso macro</b>'});
+
 	    this.addButton('sig_estado',{
         text:'Siguiente',
         iconCls:'badelante',
         disabled:true,
         handler:this.openFormEstadoWf,
-        tooltip: '<b>Cambiar al siguientes estado</b>'});  		
-		
+        tooltip: '<b>Cambiar al siguientes estado</b>'});
+
 		this.init();
 		this.iniciarEventos();
-		
+
 		this.store.baseParams={tipo_interfaz:this.nombreVista};
 		if(config.filtro_directo){
            this.store.baseParams.filtro_valor = config.filtro_directo.valor;
@@ -82,11 +82,11 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 		//primera carga
 		this.store.baseParams.pes_estado = 'vigente';
     	this.load({params:{start:0, limit:this.tam_pag}});
-		
+
 		this.finCons = true;
 		//this.load({params:{start:0, limit:this.tam_pag}})
 	},
-			
+
 	Atributos:[
 		{
 			//configuracion del componente
@@ -96,7 +96,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 					name: 'id_anexo'
 			},
 			type:'Field',
-			form:true 
+			form:true
 		},
 		{
 			config:{
@@ -118,7 +118,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'origen',				
+				name: 'origen',
 				inputType:'hidden',
 				anchor: '100%',
 				gwidth: 200
@@ -126,7 +126,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				type:'TextField',
 				id_grupo:1,
 				form:true,
-		},		
+		},
 		{
             config: {
                 name: 'id_proveedor',
@@ -166,9 +166,9 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 200,
                 anchor: '100%',
                 tpl: '<tpl for="."><div class="x-combo-list-item"><p><b>{rotulo_comercial}</b></p><p>{desc_proveedor}</p><p>{codigo}</p><p>NIT:{nit}</p><p>Lugar:{lugar}</p><p>Email: {email}</p></div></tpl>',
-				renderer : function(value, p, record) {									
+				renderer : function(value, p, record) {
 					return String.format('{0}', record.data['proveedor']);
-				}                 
+				}
             },
             type: 'ComboBox',
             id_grupo: 0,
@@ -211,7 +211,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
                 gdisplayField: 'id_contrato',
                 triggerAction: 'all',
                 lazyRender: true,
-                resizable: true,                
+                resizable: true,
                 mode: 'remote',
                 pageSize: 20,
                 queryDelay: 200,
@@ -229,7 +229,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
             },
             grid: false,
             form: true
-        },        				
+        },
 		{
 			config:{
 				name: 'codigo_int',
@@ -294,7 +294,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
             },
             grid: false,
             form: true
-        },				
+        },
 
 		{
 			config:{
@@ -303,7 +303,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 200
-				
+
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.banco',type:'string'},
@@ -334,7 +334,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
             id_grupo : 1,
             grid : true,
             form : true
-        },		
+        },
 		{
 			config:{
 				name: 'nro_documento',
@@ -400,7 +400,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				grid:true,
 				form:false,
 				bottom_filter:true
-		},		
+		},
 		{
 			config:{
 				name: 'numero',
@@ -425,7 +425,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 				anchor: '80%',
 				gwidth: 100,
-							format: 'd/m/Y', 
+							format: 'd/m/Y',
 							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 				type:'DateField',
@@ -441,16 +441,16 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-							format: 'd/m/Y', 
+							format: 'd/m/Y',
 							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
-							
+
 			},
 				type:'DateField',
 				filters:{pfiltro:'pobo.fecha_fin_uso',type:'date'},
 				id_grupo:1,
 				grid:true,
 				form:true
-		},		
+		},
 		{
 			config:{
 				name: 'fecha_notif',
@@ -458,7 +458,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-							format: 'd/m/Y', 
+							format: 'd/m/Y',
 							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 				type:'DateField',
@@ -474,7 +474,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-							format: 'd/m/Y', 
+							format: 'd/m/Y',
 							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 				type:'DateField',
@@ -490,7 +490,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 				anchor: '80%',
 				gwidth: 100,
-							format: 'd/m/Y', 
+							format: 'd/m/Y',
 							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 				type:'DateField',
@@ -514,7 +514,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 						else{
 							return '<b><p align="right">Total: &nbsp;&nbsp; </p></b>';
 						}
-					} 				
+					}
 			},
 				type:'TextField',
 				filters:{pfiltro:'pobo.moneda',type:'string'},
@@ -537,8 +537,8 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 						else{
 							return  String.format('<b><font size=2 >{0}</font><b>', Ext.util.Format.number(record.data.total_asegurado,'0.000,00/i'));
 						}
-					} 
-				
+					}
+
 			},
 				type:'NumberField',
 				filters:{pfiltro:'pobo.asegurado',type:'numeric'},
@@ -553,7 +553,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Hoja De Ruta',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100				
+				gwidth: 100
 			},
 				type:'NumberField',
 				filters:{pfiltro:'pobo.nro_hoja_ruta',type:'string'},
@@ -561,7 +561,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				grid:true,
 				form:true,
 				bottom_filter:true
-		},		
+		},
 		{
 			config:{
 				name: 'estado_contrato',
@@ -584,7 +584,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Estado Boleta',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100				
+				gwidth: 100
 			},
 			type: 'TextField',
 			filters: {pfiltro: 'pobo.estado', type:'string'},
@@ -599,34 +599,34 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Estado Boleta',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,                
+				gwidth: 100,
                 triggerAction : 'all',
-                lazyRender : true,                
+                lazyRender : true,
                 valueField: 'estilo',
                 typeAhead: true,
                 mode: 'local',
                 store : new Ext.data.ArrayStore({
-                    fields : ['tipo', 'valor'], 
+                    fields : ['tipo', 'valor'],
                     data : [['ejecutado', 'Ejecutada'],
                             ['devuelto', 'Devuelta']]
                 }),
                 valueField: 'tipo',
 				displayField: 'valor',
-                renderer:function (value,p,record){                    
+                renderer:function (value,p,record){
                     return value?value.toUpperCase():''
-                    },                  
+                    },
 			},
 			type: 'ComboBox',
-            filters:{	
+            filters:{
 					 type: 'list',
 					  pfiltro:'pobo.estado',
-					 options: ['ejecutado','devuelto'],	
-				},			
+					 options: ['ejecutado','devuelto'],
+				},
 			id_grupo: 1,
 			grid: true,
 			form: true,
 			bottom_filter: true
-		},        		
+		},
 		{
 			config:{
 				name: 'observaciones',
@@ -640,14 +640,116 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 				filters:{pfiltro:'pobo.observaciones',type:'string'},
 				id_grupo:1,
 				grid:true,
-				form:true				
-		}
+				form:true
+		},
+		{
+			config:{
+				name: 'usr_reg',
+				fieldLabel: 'Creado por',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100
+			},
+				type:'Field',
+				filters:{pfiltro:'usu1.cuenta',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:false
+		},
+		{
+			config:{
+				name: 'usuario_ai',
+				fieldLabel: 'Funcionaro AI',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100
+			},
+				type:'TextField',
+				filters:{pfiltro:'pobo.usuario_ai',type:'string'},
+				id_grupo:1,
+				grid:false,
+				form:false
+		},
+		{
+			config:{
+				name: 'fecha_reg',
+				fieldLabel: 'Fecha creación',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+							format: 'd/m/Y',
+							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
+			},
+				type:'DateField',
+				filters:{pfiltro:'pobo.fecha_reg',type:'date'},
+				id_grupo:1,
+				grid:true,
+				form:false
+		},
+		{
+			config:{
+				name: 'id_usuario_ai',
+				fieldLabel: 'usuario ai',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100
+			},
+				type:'Field',
+				filters:{pfiltro:'pobo.id_usuario_ai',type:'numeric'},
+				id_grupo:1,
+				grid:false,
+				form:false
+		},
+		{
+			config:{
+				name: 'usr_mod',
+				fieldLabel: 'Modificado por',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100
+			},
+				type:'Field',
+				filters:{pfiltro:'usu2.cuenta',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:false
+		},
+		{
+			config:{
+				name: 'fecha_mod',
+				fieldLabel: 'Fecha Modif.',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+							format: 'd/m/Y',
+							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
+			},
+				type:'DateField',
+				filters:{pfiltro:'pobo.fecha_mod',type:'date'},
+				id_grupo:1,
+				grid:true,
+				form:false
+		},
+		{
+			config:{
+				name: 'estado_reg',
+				fieldLabel: 'Estado Reg.',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100
+			},
+				type:'TextField',
+				filters:{pfiltro:'pobo.estado_reg',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:false
+		},
 
 	],
-	tam_pag:50,	
+	tam_pag:50,
 	title:'Poliza Boleta Iata',
 	ActSave:'../../sis_contratos/control/PolizaBoleta/insertarPolizaBoleta',
-	ActDel:'../../sis_contratos/control/PolizaBoleta/eliminarPolizaBoleta',	
+	ActDel:'../../sis_contratos/control/PolizaBoleta/eliminarPolizaBoleta',
 	ActList:'../../sis_contratos/control/PolizaBoleta/listarPolizaBoletaOtra',
 	id_store:'id_anexo',
 	fields: [
@@ -656,7 +758,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 		{name:'nro_documento', type: 'string'},
 		{name:'tipo', type: 'string'},
 		{name:'codigo', type: 'string'},
-		{name:'proveedor', type: 'string'}, 
+		{name:'proveedor', type: 'string'},
 		{name:'numero', type: 'string'},
 		{name:'tipo_agencia', type: 'string'},
 		{name:'fecha_desde', type: 'date',dateFormat:'Y-m-d'},
@@ -686,8 +788,10 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_gestion',type:'numeric'},
 		{name:'gestion',type:'numeric'},
 		{name:'id_proveedor',type:'numeric'},
-		{name:'id_institucion', type: 'numeric'}		
-		
+		{name:'id_institucion', type: 'numeric'},
+		{name:'estado_reg', type:'string'},
+
+
 	],
 	sortInfo:{
 		field: 'fecha_hasta',
@@ -696,18 +800,18 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
 	bdel:true,
 	bsave:true,
 	btest:false,
-	
-    onButtonNew: function() {   	    
+
+    onButtonNew: function() {
     	this.window.setSize(450,420);
     	this.ocultarComponente(this.Cmp.fecha_fin_uso);
     	Phx.vista.PolizaBoletaIata.superclass.onButtonNew.call(this);
         this.Cmp.origen.setValue('iata');
-    },  	
-	onButtonEdit:function(){						
+    },
+	onButtonEdit:function(){
 		this.window.setSize(450,420);
 		this.mostrarComponente(this.Cmp.fecha_fin_uso);
 		Phx.vista.PolizaBoletaIata.superclass.onButtonEdit.call(this);
-		this.Cmp.origen.setValue('iata');			
+		this.Cmp.origen.setValue('iata');
 		var data = this.getSelectedData();
         this.Cmp.fecha_fin_uso.allowBlank=true;
         this.Cmp.fecha_fin_uso.modificado=true;
@@ -716,24 +820,24 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
             this.Cmp.fecha_fin_uso.errorEl.dom.innerText='';
         }
     	this.Cmp.estado.on('select', function(c,r,n){
-            this.Cmp.fecha_fin_uso.allowBlank=false;            
-    	},this);                        
+            this.Cmp.fecha_fin_uso.allowBlank=false;
+    	},this);
 	},
-	
+
     iniciarEventos:function(){
     	this.ocultarComponente(this.Cmp.fecha_fin_uso);
         /*
-		this.Cmp.id_proveedor.on('select', function(c,r,n){    		
+		this.Cmp.id_proveedor.on('select', function(c,r,n){
 		            this.Cmp.id_contrato.reset();
-		            this.Cmp.id_contrato.enable();            
+		            this.Cmp.id_contrato.enable();
 		            this.Cmp.id_contrato.store.baseParams={id_proveedor:c.value, vista:'otros'};
-		            this.Cmp.id_contrato.modificado=true;    		
+		            this.Cmp.id_contrato.modificado=true;
 		    	},this);   	*/
     },
-	loadCheckDocumentosWf:function() {		
+	loadCheckDocumentosWf:function() {
         var rec=this.sm.getSelected();
         console.log('data',rec);
-        rec.data.nombreVista = this.nombreVista;        
+        rec.data.nombreVista = this.nombreVista;
         Phx.CP.loadWindows('../../../sis_workflow/vista/documento_wf/DocumentoWf.php',
             'Chequear documento del WF',
             {
@@ -746,7 +850,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
     	)
     },
 ///////////////////////////////////////////////////
-    
+
     sigEstado:function(){
 		var rec=this.sm.getSelected();
 
@@ -795,12 +899,12 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
         resp.argument.wizard.panel.destroy()
         this.reload();
     },
-    
-    ///////////////////////////////////////////////////    
-    
-    openFormEstadoWf:function(){              
-        var rec=this.sm.getSelected();        
-         console.log(rec.data)                
+
+    ///////////////////////////////////////////////////
+
+    openFormEstadoWf:function(){
+        var rec=this.sm.getSelected();
+         console.log(rec.data)
             Phx.CP.loadWindows('../../../sis_workflow/vista/estado_wf/FormEstadoWf.php',
             'Estado de Wf',
             {
@@ -812,21 +916,21 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
                 config:[{
                           event:'beforesave',
                           delegate: this.onSaveWizard,
-                          
+
                         }],
-                
+
                 scope:this
              })
-        
-        
-    },    
+
+
+    },
     onSaveWizard:function(wizard,resp){
-        
+
         Phx.CP.loadingShow();
         Ext.Ajax.request({
             url:'../../sis_workflow/control/ProcesoWf/siguienteEstadoProcesoWf',
             params:{
-                
+
                 id_proceso_wf_act:  resp.id_proceso_wf_act,
                 id_estado_wf_act:  resp.id_estado_wf_act,
                 id_tipo_estado:     resp.id_tipo_estado,
@@ -840,14 +944,14 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
             timeout:this.timeout,
             scope:this
         });
-         
-    },    
+
+    },
     successWizard:function(resp){
         Phx.CP.loadingHide();
         resp.argument.wizard.panel.destroy()
         this.reload();
-     },          
-    diagramGantt:function (){         
+     },
+    diagramGantt:function (){
         var data=this.sm.getSelected().data.id_proceso_wf;
         console.log('data',data);
         Phx.CP.loadingShow();
@@ -858,9 +962,7 @@ Phx.vista.PolizaBoletaIata=Ext.extend(Phx.gridInterfaz,{
             failure: this.conexionFailure,
             timeout:this.timeout,
             scope:this
-        });         
-	},	
+        });
+	},
 })
 </script>
-		
-		

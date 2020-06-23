@@ -3,16 +3,16 @@
 *@package pXP
 *@file MODPolizaBoleta.php
 *@author  (breydi.vasquez)
-*@date 18-04-2018 20:02:21 
+*@date 18-04-2018 20:02:21
 *@description Clase que envia los parametros requeridos a la Base de datos para la ejecucion de las funciones, y que recibe la respuesta del resultado de la ejecucion de las mismas
 */
 
 class MODPolizaBoleta extends MODbase{
-	
+
 	function __construct(CTParametro $pParam){
 		parent::__construct($pParam);
 	}
-			  
+
 	function listarPolizaBoleta(){
 		//Definicion de variables para ejecucion del procedimientp
 		$this->procedimiento='leg.ft_poliza_boleta_sel';
@@ -20,11 +20,11 @@ class MODPolizaBoleta extends MODbase{
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 
 		$this->capturaCount('total_asegurado','numeric');
-		
+
 		$this->captura('id_anexo','int4');
 		$this->captura('estado_reg','varchar');
 		$this->captura('agencia','varchar');
-		$this->captura('nro_documento','varchar');    
+		$this->captura('nro_documento','varchar');
 		$this->captura('fecha_desde','date');
 		$this->captura('fecha_fin_uso','date');
 		$this->captura('moneda','varchar');
@@ -53,12 +53,14 @@ class MODPolizaBoleta extends MODbase{
 		$this->captura('id_contrato','integer');
 		$this->captura('id_gestion','integer');
 		$this->captura('gestion','integer');
-        $this->captura('id_proveedor','integer');    
+    $this->captura('id_proveedor','integer');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('fecha_mod','timestamp');
 		//Ejecuta la instruccion
-		$this->armarConsulta();		
+		$this->armarConsulta();
 		//echo($this->consulta);exit;
 		$this->ejecutarConsulta();
-		
+
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
@@ -69,12 +71,12 @@ class MODPolizaBoleta extends MODbase{
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 
 		$this->capturaCount('total_asegurado','numeric');
-		//$this->setParametro('fecha_fin_uso','fecha_fin_uso','integer');		
+		//$this->setParametro('fecha_fin_uso','fecha_fin_uso','integer');
 		//Definicion de la lista del resultado del query
 		//$this->captura('id_poliza_voletos','int4');
 		$this->captura('id_anexo','int4');
 		$this->captura('banco','varchar');
-		$this->captura('nro_documento','varchar');    
+		$this->captura('nro_documento','varchar');
 		$this->captura('tipo','varchar');
 		$this->captura('proveedor','varchar');
 		$this->captura('numero','varchar');
@@ -101,23 +103,25 @@ class MODPolizaBoleta extends MODbase{
 		$this->captura('gestion','integer');
 		$this->captura('id_proveedor','integer');
 		$this->captura('id_institucion','integer');
-		$this->captura('institucion','varchar');				
-		
+		$this->captura('institucion','varchar');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('fecha_mod','timestamp');
+		$this->captura('estado_reg','varchar');
 		//Ejecuta la instruccion
 		$this->armarConsulta();
-		//echo($this->consulta);exit; 
+		//echo($this->consulta);exit;
 		$this->ejecutarConsulta();
-		
+
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
-	
+
 	function RepBoletasGarantia() {
 		//Definicion de variables para ejecucion del procedimientp
 		$this->procedimiento='leg.ft_poliza_boleta_sel';
 		$this->transaccion='LG_RBSGAR_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
-				
+		$this->setCount(false);
 		$this->setParametro('fecha_desde','fecha_desde','date');
 		$this->setParametro('fecha_hasta','fecha_hasta','date');
 		$this->setParametro('boleta_filtro','boleta_filtro','varchar');
@@ -138,63 +142,63 @@ class MODPolizaBoleta extends MODbase{
 		$this->armarConsulta();
 		//echo($this->consulta);exit;
 		$this->ejecutarConsulta();
-		
+
 		//Devuelve la respuesta
-		return $this->respuesta;		
+		return $this->respuesta;
 	}
-	
+
 	function insertarPolizaBoleta(){
 		//Definicion de variables para ejecucion del procedimientp
 		$this->procedimiento='leg.ft_poliza_boleta_ime';
 		$this->transaccion='LG_RBSGAR_INS';
 		$this->tipo_procedimiento='IME';//tipo de transaccion
-				
-		$this->setParametro('origen','origen','varchar');		
+
+		$this->setParametro('origen','origen','varchar');
 		$this->setParametro('id_proveedor','id_proveedor','integer');
-		$this->setParametro('id_institucion','id_institucion','integer');		
-		$this->setParametro('id_agencia','id_agencia','integer');			
-		$this->setParametro('tipo','tipo','varchar');		
+		$this->setParametro('id_institucion','id_institucion','integer');
+		$this->setParametro('id_agencia','id_agencia','integer');
+		$this->setParametro('tipo','tipo','varchar');
 		$this->setParametro('nro_documento','nro_documento','varchar');
-		$this->setParametro('id_contrato','id_contrato','integer');		
-		$this->setParametro('fecha_desde','fecha_desde','date');			
-		$this->setParametro('fecha_hasta','fecha_hasta','date');		
+		$this->setParametro('id_contrato','id_contrato','integer');
+		$this->setParametro('fecha_desde','fecha_desde','date');
+		$this->setParametro('fecha_hasta','fecha_hasta','date');
 		$this->setParametro('asegurado','asegurado','numeric');
         $this->setParametro('nro_hoja_ruta','nro_hoja_ruta','varchar');
         $this->setParametro('estado', 'estado', 'varchar');
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
-		
+
 		//Devuelve la respuesta
-		return $this->respuesta;		
+		return $this->respuesta;
 	}
-	
+
 	function modificarPolizaBoleta(){
 		//Definicion de variables para ejecucion del procedimientp
 		$this->procedimiento='leg.ft_poliza_boleta_ime';
 		$this->transaccion='LG_UPBSGAR_MOD';
 		$this->tipo_procedimiento='IME';//tipo de transaccion
-			
-        $this->setParametro('origen','origen','varchar');        
+
+        $this->setParametro('origen','origen','varchar');
 		$this->setParametro('id_anexo','id_anexo','integer');
 		$this->setParametro('fecha_fin_uso','fecha_fin_uso','date');
 		$this->setParametro('nro_hoja_ruta','nro_hoja_ruta','varchar');
-		$this->setParametro('id_contrato','id_contrato','integer');				
-        $this->setParametro('id_institucion','id_institucion','integer');		
+		$this->setParametro('id_contrato','id_contrato','integer');
+        $this->setParametro('id_institucion','id_institucion','integer');
         $this->setParametro('id_proveedor','id_proveedor','integer');
 		$this->setParametro('tipo','tipo','varchar');
-		$this->setParametro('nro_documento','nro_documento','varchar');	
-		$this->setParametro('fecha_desde','fecha_desde','date');			
-		$this->setParametro('fecha_hasta','fecha_hasta','date');		
+		$this->setParametro('nro_documento','nro_documento','varchar');
+		$this->setParametro('fecha_desde','fecha_desde','date');
+		$this->setParametro('fecha_hasta','fecha_hasta','date');
 		$this->setParametro('asegurado','asegurado','numeric');
         $this->setParametro('observaciones','observaciones','text');
-        $this->setParametro('estado', 'estado', 'varchar');	
+        $this->setParametro('estado', 'estado', 'varchar');
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
-		
+
 		//Devuelve la respuesta
-		return $this->respuesta;		
+		return $this->respuesta;
 	}
 
 	function eliminarPolizaBoleta(){
@@ -202,9 +206,9 @@ class MODPolizaBoleta extends MODbase{
 		$this->procedimiento='leg.ft_poliza_boleta_ime';
 		$this->transaccion='LG_DEBSGAR_ELI';
 		$this->tipo_procedimiento='IME';
-				
+
 		//Define los parametros para la funcion
-		$this->setParametro('id_anexo','id_anexo','int4');		
+		$this->setParametro('id_anexo','id_anexo','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -212,8 +216,8 @@ class MODPolizaBoleta extends MODbase{
 
 		//Devuelve la respuesta
 		return $this->respuesta;
-	}	
-	
+	}
+
 	function listarContratoBoleta (){
 		//Definicion de variables para ejecucion del procedimientp
 		$this->procedimiento='leg.ft_poliza_boleta_sel';
@@ -230,17 +234,17 @@ class MODPolizaBoleta extends MODbase{
 		$this->captura('monto','numeric');
 		$this->captura('moneda','varchar');
 		$this->captura('fecha_inicio','date');
-		$this->captura('fecha_fin','date');		
-		
+		$this->captura('fecha_fin','date');
+
 		//Ejecuta la instruccion
 		$this->armarConsulta();
-		//echo($this->consulta);exit; 
+		//echo($this->consulta);exit;
 		$this->ejecutarConsulta();
-		
+
 		//Devuelve la respuesta
-		return $this->respuesta;		
+		return $this->respuesta;
 	}
-	
+
 	function listarBancos(){
 		//Definicion de variables para ejecucion del procedimientp
 		$this->procedimiento='leg.ft_poliza_boleta_sel';
@@ -248,16 +252,16 @@ class MODPolizaBoleta extends MODbase{
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 		//lista de resultado query
 		$this->captura('id_institucion','integer');
-		$this->captura('nombre','varchar');				
+		$this->captura('nombre','varchar');
 		//Ejecuta la instruccion
 		$this->armarConsulta();
-		//echo($this->consulta);exit; 
+		//echo($this->consulta);exit;
 		$this->ejecutarConsulta();
-		
+
 		//Devuelve la respuesta
-		return $this->respuesta;		
+		return $this->respuesta;
 	}
-	
+
 	function siguienteEstadoBoleta() {
         //Definicion de variables para ejecucion del procedimiento
         $this->procedimiento='leg.ft_poliza_boleta_ime';
@@ -279,8 +283,8 @@ class MODPolizaBoleta extends MODbase{
         $this->ejecutarConsulta();
 
         //Devuelve la respuesta
-        return $this->respuesta;		
-	}	
-			
+        return $this->respuesta;
+	}
+
 }
 ?>

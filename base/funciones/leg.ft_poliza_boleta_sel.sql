@@ -67,27 +67,30 @@ BEGIN
 						pobo.fecha_notif,
 						pobo.tipo,
 						pobo.numero,
-                        pobo.tipo_agencia,
-						pobo.banco,
-						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod,
-                        pobo.id_usuario_reg,
-                        pobo.id_usuario_mod,
-                        pobo.observaciones,
-                        pobo.id_agencia,
-                        pobo.estado_contrato,
-                        pobo.id_proceso_wf,
-                        pobo.id_estado_wf,
-                        pobo.nro_hoja_ruta,
-                        pobo.id_contrato,
-                        pobo.id_gestion,
-                        ges.gestion,
-                        pobo.id_proveedor
+            pobo.tipo_agencia,
+            pobo.banco,
+            usu1.cuenta as usr_reg,
+            usu2.cuenta as usr_mod,
+            pobo.id_usuario_reg,
+            pobo.id_usuario_mod,
+            pobo.observaciones,
+            pobo.id_agencia,
+            pobo.estado_contrato,
+            pobo.id_proceso_wf,
+            pobo.id_estado_wf,
+            pobo.nro_hoja_ruta,
+            pobo.id_contrato,
+            pobo.id_gestion,
+            ges.gestion,
+            pobo.id_proveedor,
+            pobo.fecha_reg,
+            pobo.fecha_mod
 						from leg.vpoliza_boletas pobo
 						inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
 						inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
-				        where pobo.tipo_agencia=''noiata'' and ';
+				        where pobo.tipo_agencia=''noiata'' and
+                pobo.estado_reg = ''activo'' and ';
 
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -114,7 +117,8 @@ BEGIN
 					    inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
 						inner join param.tgestion ges on ges.id_gestion = pobo.id_gestion
-					    where pobo.tipo_agencia=''noiata'' and ';
+					    where pobo.tipo_agencia=''noiata'' and
+              pobo.estado_reg = ''activo'' and ';
 
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -135,42 +139,45 @@ BEGIN
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-            			pobo.id_anexo,
-						pobo.banco,
-                        pobo.nro_documento,
-						pobo.tipo,
-                        pobo.proveedor,
-						pobo.numero,
-						pobo.fecha_fin_uso,
-						pobo.fecha_desde,
-						pobo.fecha_notif,
-						pobo.fecha_corte,
-                        pobo.fecha_hasta,
-						pobo.moneda,
-                        pobo.asegurado,
-                        pobo.estado,
-                        usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod,
-                        pobo.id_usuario_reg,
-                        pobo.id_usuario_mod,
-                        --pobo.id_usuario_mod,
-                        pobo.tipo_agencia,
-                        pobo.observaciones,
-                        pobo.estado_contrato,
-                        pobo.id_proceso_wf,
-                        pobo.id_estado_wf,
-                        pobo.nro_hoja_ruta,
-                        pobo.id_contrato,
-                        pobo.id_gestion,
-                        ges.gestion,
-                        pobo.id_proveedor,
-                        pobo.id_institucion,
-                        pobo.institucion
+                    pobo.id_anexo,
+                    pobo.banco,
+                    pobo.nro_documento,
+                    pobo.tipo,
+                    pobo.proveedor,
+                    pobo.numero,
+                    pobo.fecha_fin_uso,
+                    pobo.fecha_desde,
+                    pobo.fecha_notif,
+                    pobo.fecha_corte,
+                    pobo.fecha_hasta,
+                    pobo.moneda,
+                    pobo.asegurado,
+                    pobo.estado,
+                    usu1.cuenta as usr_reg,
+                    usu2.cuenta as usr_mod,
+                    pobo.id_usuario_reg,
+                    pobo.id_usuario_mod,
+                    --pobo.id_usuario_mod,
+                    pobo.tipo_agencia,
+                    pobo.observaciones,
+                    pobo.estado_contrato,
+                    pobo.id_proceso_wf,
+                    pobo.id_estado_wf,
+                    pobo.nro_hoja_ruta,
+                    pobo.id_contrato,
+                    pobo.id_gestion,
+                    ges.gestion,
+                    pobo.id_proveedor,
+                    pobo.id_institucion,
+                    pobo.institucion,
+                    pobo.fecha_reg,
+                    pobo.fecha_mod,
+                    pobo.estado_reg
 						from leg.vpoliza_boletas_otras pobo
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
                         left join param.tgestion ges on ges.id_gestion = pobo.id_gestion
-				        where ';
+				        where pobo.estado_reg = ''activo'' and ';
 
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -196,7 +203,7 @@ BEGIN
                         inner join segu.tusuario usu1 on usu1.id_usuario = pobo.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = pobo.id_usuario_mod
                         left join param.tgestion ges on ges.id_gestion = pobo.id_gestion
-					    where ';
+					    where pobo.estado_reg = ''activo'' and ';
 
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -217,21 +224,21 @@ BEGIN
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-        v_accion = ' 0 = 0';    
+        v_accion = ' 0 = 0';
         v_estado = ' 0 = 0 and ';
         if v_parametros.boleta_filtro = 'ejecutado' then
 
         	v_accion = 'anex.estado = ''ejecutado''';
-          	v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';             
-        elsif v_parametros.boleta_filtro = 'devuelto' then 
+          	v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';
+        elsif v_parametros.boleta_filtro = 'devuelto' then
         	v_accion = 'anex.estado = ''devuelto''';
-            v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||''''; 	        
-            
+            v_filtro = 'COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)>=  '''||v_parametros.fecha_hasta||'''';
+
 		elsif v_parametros.boleta_filtro = 'vencida' then
-      		v_filtro = 'anex.fecha_hasta between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';            
+      		v_filtro = 'anex.fecha_hasta between '''||v_parametros.fecha_desde||''' and '''||v_parametros.fecha_hasta||'''';
             v_estado = '(anex.estado is null or anex.estado = '''' or  anex.estado in (''ejecutado'', ''devuelto'')  ) and ';
         elsif v_parametros.boleta_filtro = 'vigente' then
-            v_filtro = ''''||v_parametros.fecha_hasta||''' between anex.fecha_desde  and COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)'; 
+            v_filtro = ''''||v_parametros.fecha_hasta||''' between anex.fecha_desde  and COALESCE(anex.fecha_fin_uso,anex.fecha_hasta)';
             v_estado = '(anex.estado is null or anex.estado = '''' or  anex.estado in (''ejecutado'', ''devuelto'') ) and ';
         end if;
 
@@ -256,6 +263,7 @@ BEGIN
         '||v_filtro||'
         and '||v_estado||' anex.banco not like ''%FICTICI%''
         and '||v_accion||'
+        and anex.estado_reg = ''activo''
         and ';
 
 			--Definicion de la respuesta
@@ -285,11 +293,11 @@ BEGIN
                                  CON.tipo,
                                  CON.objeto,
                                  CON.estado,
-                                 prov.desc_proveedor,       
+                                 prov.desc_proveedor,
                                  CON.monto,
                                  mon.moneda,
                                  CON.fecha_inicio,
-                                 CON.fecha_fin 
+                                 CON.fecha_fin
                           from leg.tcontrato CON
                                inner join segu.tusuario usu1 on usu1.id_usuario = CON.id_usuario_reg
                                left join segu.tusuario usu2 on usu2.id_usuario = CON.id_usuario_mod
@@ -304,8 +312,8 @@ BEGIN
                                left join orga.vfuncionario fun on fun.id_funcionario = ew.id_funcionario
                           where CON.estado_reg != ''inactivo'' and
                                 CON.estado != ''anulado'' and
-                                CON.estado = ''finalizado'' 
-                                and 
+                                CON.estado = ''finalizado''
+                                and
 	  								';
 
 			--Definicion de la respuesta
@@ -342,7 +350,7 @@ BEGIN
                                left join orga.vfuncionario fun on fun.id_funcionario = ew.id_funcionario
                           where CON.estado_reg != ''inactivo'' and
                                 CON.estado != ''anulado'' and
-                                CON.estado = ''finalizado'' 
+                                CON.estado = ''finalizado''
                                 and ';
 
 			--Definicion de la respuesta
@@ -376,7 +384,7 @@ BEGIN
 			--Devuelve la respuesta
 			return v_consulta;
 
-		end;                        
+		end;
     /*********************************
       #TRANSACCION:  'LG_LISTBAN_CONT'
       #DESCRIPCION:	Consulta datos bancos
@@ -398,7 +406,7 @@ BEGIN
 			--Devuelve la respuesta
 			return v_consulta;
 
-		end; 
+		end;
 
 	else
 
