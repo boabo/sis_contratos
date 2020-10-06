@@ -262,6 +262,7 @@ Phx.vista.PolizaBoletaOtros=Ext.extend(Phx.gridInterfaz,{
                 listWidth: 380,
                 minChars: 2,
                 gwidth: 100,
+								hidden: true,
                 anchor: '80%',
                 tpl: '<tpl for="."><div class="x-combo-list-item"><p><b>Nro: {numero} ({tipo})</b></p><p>Obj: <strong>{objeto}</strong></p><p>Prov : {desc_proveedor}</p> <p>Nro.Trámite: {nro_tramite}</p><p>Monto: {monto} {moneda}</p><p>Rango: {fecha_inicio} al {fecha_fin}</p></div></tpl>'
             },
